@@ -7,16 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Playlist of songs
     const playlist = [
         {
-            name: "Crossfire",
-            url: "https://syntos.xyz/music/crossfire.mp3"
+            name: "The River (Remix)",
+            url: "https://syntos.xyz/music/river.mp3"
         },
         {
             name: "Heroes", 
             url: "https://syntos.xyz/music/heroes.mp3"
         },
-        {
-            name: "Canción 3",
-            url: "https://ejemplo.com/cancion3.mp3"
+                {
+            name: "Crossfire", 
+            url: "https://syntos.xyz/music/crossfire.mp3"
         }
     ];
 
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => {
                 console.error('Error playing track:', error);
-                alert('No se pudo reproducir la canción.');
+                alert('this song cannot be played at this time.');
             });
     }
 
@@ -64,11 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (audioPlayer.paused) {
             audioPlayer.play()
                 .then(() => {
-                    playlistButton.textContent = 'Pausar';
+                    playlistButton.textContent = 'Pause';
                 });
         } else {
             audioPlayer.pause();
-            playlistButton.textContent = 'Reproducir';
+            playlistButton.textContent = 'Play';
         }
     });
 
