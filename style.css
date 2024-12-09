@@ -181,7 +181,12 @@ body {
     }
 
     .button {
-        font-size: 14px;
+        font-size: 15px;
+        padding: 15px 15px;
+    }
+
+    playlist-button {
+        font-size: 15px;
         padding: 15px 15px;
     }
 }
