@@ -28,7 +28,7 @@ body {
 
 .profile h1 {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
+    font-weight: 800;
     margin: 15px 0;
 }
 
@@ -76,7 +76,8 @@ body {
 
 .playlist-button {
     background-color: #0047FF;
-    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
 }
 
 .playlist-button:hover {
