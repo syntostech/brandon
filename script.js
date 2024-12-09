@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Playlist of songs
     const playlist = [
         {
-            name: "Canción 1",
-            url: "https://www.syntos.xyz/music/crossfire"
+            name: "Crossfire",
+            url: "https://syntos.xyz/music/crossfire.mp3"
         },
         {
-            name: "Canción 2", 
-            url: "https://ejemplo.com/cancion2.mp3"
+            name: "Heroes", 
+            url: "https://syntos.xyz/music/heroes.mp3"
         },
         {
             name: "Canción 3",
