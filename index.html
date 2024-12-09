@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Follow @brandonvasp on socials</title>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="Brandonvasp - Official Website">
+    <meta property="og:description" content="Brandon is a young Panamanian entrepreneur and businessman who sees education as a tool for social and economic empowerment. Through his work he seeks to promote innovation and technological development in Latam">
+    <meta property="og:image" content="https://raw.githubusercontent.com/syntostech/brandon/refs/heads/main/GdErUjnXAAAsR7i.jpg?token=GHSAT0AAAAAAC26RN2AXP546WWM2BIKRWDAZ2WNKPA">
+    <meta property="og:url" content="https://brandonvasp.com">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Brandonvasp - Official Website">
+    <meta name="twitter:description" content="Brandon is a young Panamanian entrepreneur and businessman who sees education as a tool for social and economic empowerment. Through his work he seeks to promote innovation and technological development in Latam">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/syntostech/brandon/refs/heads/main/GdErUjnXAAAsR7i.jpg?token=GHSAT0AAAAAAC26RN2AXP546WWM2BIKRWDAZ2WNKPA">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="profile">
+            <img src="imagen_perfil.png" alt="Foto de perfil"> 
+            <h1>BRANDON</h1>
+            <div class="buttons">
+                <a href="#" class="button">Join my telegram channel</a>
+                <a href="#" class="button active">current</a>
+                <a href="#" class="button">automation & development</a>
+                <a href="#" class="button">entrepreneurs community PA</a>
+                <a href="#" class="button">financial advice for loans PA</a>
+            </div>
+            
+            <!-- Playlist Section -->
+            <div class="playlist-container">
+                <div class="playlist-controls">
+                    <button id="playlistButton" class="button playlist-button">
+                        Click para escuchar
+                    </button>
+                    <div class="track-info">
+                        <span id="currentTrackName">Selecciona una canción</span>
+                    </div>
+                </div>
+                <audio id="audioPlayer"></audio>
+                <div id="playlistTracks" class="tracks-list"></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
