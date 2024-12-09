@@ -105,6 +105,7 @@ body {
 
 .playlist-controls {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
@@ -165,7 +166,29 @@ body {
         padding: 8px 15px;
     }
 
-    .playlist-controls {
-        flex-direction: column;
-    }
+    /* bubble */
+.attribution-bubble {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px;
+    max-width: 300px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 100;
+}
+
+.attribution-bubble.show {
+    opacity: 1;
+}
+
+.attribution-bubble a {
+    color: #4CAF50;
+    text-decoration: underline;
+    margin-left: 5px;
 }
