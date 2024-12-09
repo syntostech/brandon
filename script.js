@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const playlist = [
         {
             name: "Canción 1",
-            url: "https://ejemplo.com/cancion1.mp3"
+            url: "syntos.xyz/music/crossfire"
         },
         {
             name: "Canción 2", 
