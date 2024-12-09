@@ -75,7 +75,16 @@ body {
 }
 
 .playlist-button {
+    display: block;
     background-color: #0047FF;
+    color: white;
+    padding: 15px 20px;
+    margin: 10px 0;
+    text-decoration: none;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
 }
