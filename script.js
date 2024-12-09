@@ -1,57 +1,65 @@
 document.addEventListener('DOMContentLoaded', () => {
     const playlistButton = document.getElementById('playlistButton');
     const audioPlayer = document.getElementById('audioPlayer');
-    const playlistTracksContainer = document.getElementById('playlistTracks');
-    const currentTrackName = document.getElementById('currentTrackName');
+    const attributionBubble = document.getElementById('attributionBubble');
 
     // Playlist of songs
     const playlist = [
         {
             name: "The River (Remix)",
-            url: "https://syntos.xyz/music/river.mp3"
+            artist: "Artista 1",
+            url: "https://syntos.xyz/music/river.mp3",
+            link: "https://youtu.be/Q2kURz7xFj8"
         },
         {
-            name: "Heroes", 
-            url: "https://syntos.xyz/music/heroes.mp3"
+            name: "CrossFire",
+            artist: "Stephen", 
+            url: "https://syntos.xyz/music/crossfire.mp3",
+            link: "https://mrsuicidesheep.ffm.to/stephen-crossfire"
         },
-                {
-            name: "Crossfire", 
-            url: "https://syntos.xyz/music/crossfire.mp3"
+        {
+            name: "Heroes",
+            artist: "Artista 3",
+            url: "https://syntos.xyz/music/heroes.mp3",
+            link: "https://alesso.lnk.to/forever"
         }
     ];
 
     let currentTrackIndex = 0;
+    let attributionTimeout;
 
-    // Render playlist tracks
-    function renderPlaylist() {
-        playlistTracksContainer.innerHTML = playlist.map((track, index) => `
-            <div class="track-item" data-index="${index}">
-                ${track.name}
-            </div>
-        `).join('');
+    // Show attribution bubble
+    function showAttribution(track) {
+        // Clear any existing timeout
+        if (attributionTimeout) {
+            clearTimeout(attributionTimeout);
+        }
 
-        // Add click event to each track
-        document.querySelectorAll('.track-item').forEach(trackElement => {
-            trackElement.addEventListener('click', () => {
-                const index = parseInt(trackElement.dataset.index);
-                playTrack(index);
-            });
-        });
+        // Update attribution text
+        attributionBubble.innerHTML = `
+            ${track.name} - ${track.artist} 
+            <a href="${track.link}" target="_blank">Listen here</a>
+        `;
+
+        // Show bubble
+        attributionBubble.classList.add('show');
+
+        // Hide after 5 seconds
+        attributionTimeout = setTimeout(() => {
+            attributionBubble.classList.remove('show');
+        }, 5000);
     }
 
     // Play a specific track
     function playTrack(index) {
         currentTrackIndex = index;
         audioPlayer.src = playlist[index].url;
-        currentTrackName.textContent = playlist[index].name;
-        
-        // Update active track styling
-        document.querySelectorAll('.track-item').forEach(el => el.classList.remove('active'));
-        document.querySelector(`.track-item[data-index="${index}"]`).classList.add('active');
         
         audioPlayer.play()
             .then(() => {
-                playlistButton.textContent = 'Pausar';
+                playlistButton.textContent = 'Pause';
+                // Show attribution for current track
+                showAttribution(playlist[index]);
             })
             .catch(error => {
                 console.error('Error playing track:', error);
@@ -62,10 +70,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Toggle play/pause
     playlistButton.addEventListener('click', () => {
         if (audioPlayer.paused) {
-            audioPlayer.play()
-                .then(() => {
-                    playlistButton.textContent = 'Pause';
-                });
+            // If no track is playing, start from the beginning or current track
+            if (audioPlayer.src === '') {
+                playTrack(0);
+            } else {
+                audioPlayer.play()
+                    .then(() => {
+                        playlistButton.textContent = 'Pause';
+                    });
+            }
         } else {
             audioPlayer.pause();
             playlistButton.textContent = 'Play';
@@ -77,7 +90,4 @@ document.addEventListener('DOMContentLoaded', () => {
         currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
         playTrack(currentTrackIndex);
     });
-
-    // Initial render
-    renderPlaylist();
 });
