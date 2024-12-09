@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const playlist = [
         {
             name: "The River (Remix)",
-            artist: "Artista 1",
+            artist: "AURORA & Askjell",
             url: "https://syntos.xyz/music/river.mp3",
             link: "https://youtu.be/Q2kURz7xFj8"
         },
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             name: "Heroes",
-            artist: "Artista 3",
+            artist: "Alesso & Tove Lo",
             url: "https://syntos.xyz/music/heroes.mp3",
             link: "https://alesso.lnk.to/forever"
         }
