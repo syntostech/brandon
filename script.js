@@ -78,7 +78,6 @@ function showAttribution(track) {
 
         return selectedTrack;
     }
-
 // Play a random track
 function playRandomTrack() {
     const track = getRandomTrack();
@@ -96,13 +95,13 @@ function playRandomTrack() {
             // Fade in the new track
             let fadeInInterval = setInterval(() => {
                 if (audioPlayer.volume < 1) {
-                    audioPlayer.volume += 0.1;
+                    audioPlayer.volume = Math.min(audioPlayer.volume + 0.1, 1);
                 } else {
                     clearInterval(fadeInInterval);
                 }
             }, 100);
 
-            // Set a timeout to switch to the next track after 30 seconds
+            // Set a timeout to switch to the next track after 60 seconds
             const timeUpdateHandler = () => {
                 if (audioPlayer.currentTime >= 60) {
                     audioPlayer.removeEventListener('timeupdate', timeUpdateHandler);
@@ -110,7 +109,7 @@ function playRandomTrack() {
                     // Fade out the current track
                     let fadeOutInterval = setInterval(() => {
                         if (audioPlayer.volume > 0) {
-                            audioPlayer.volume -= 0.1;
+                            audioPlayer.volume = Math.max(audioPlayer.volume - 0.1, 0);
                         } else {
                             clearInterval(fadeOutInterval);
                             audioPlayer.pause();
@@ -126,6 +125,7 @@ function playRandomTrack() {
             alert('this song cannot be played at this time');
         });
 }
+
     // Toggle play/pause
     playlistButton.addEventListener('click', () => {
         if (audioPlayer.paused) {
