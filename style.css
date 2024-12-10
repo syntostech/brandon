@@ -186,9 +186,34 @@ body {
         padding: 15px 15px;
     }
 
-    playlist-button {
-        font-size: 15px;
-        padding: 15px 15px;
-        border-color: white;
+@keyframes border-animation {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
     }
+    50% {
+        box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    }
+}
+
+.playlist-button {
+    display: block;
+    background-color: #0047FF;
+    color: white;
+    border-color: white;
+    padding: 15px 20px;
+    margin: 10px 0;
+    text-decoration: none;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    animation: border-animation 3s ease-in-out infinite;
+}
+
 }
