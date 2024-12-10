@@ -47,7 +47,6 @@ body {
     display: block;
     background-color: #222;
     color: #fff;
-    border-color: #fff;
     padding: 15px 20px;
     margin: 10px 0;
     text-decoration: none;
@@ -79,6 +78,7 @@ body {
     display: block;
     background-color: #0047FF;
     color: white;
+    border-color: white;
     padding: 15px 20px;
     margin: 10px 0;
     text-decoration: none;
@@ -189,5 +189,6 @@ body {
     playlist-button {
         font-size: 15px;
         padding: 15px 15px;
+        border-color: white;
     }
 }
