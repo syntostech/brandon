@@ -34,28 +34,27 @@ document.addEventListener('DOMContentLoaded', () => {
     let previousTracks = [];
     let attributionTimeout;
 
-    // Show attribution bubble
-    function showAttribution(track) {
-        // Clear any existing timeout
-        if (attributionTimeout) {
-            clearTimeout(attributionTimeout);
-        }
-
-        // Update attribution text
-        attributionBubble.innerHTML = `
-            ${track.name} - ${track.artist} 
-            <a href="${track.link}" target="_blank">Listen here</a>
-        `;
-
-        // Show bubble
-        attributionBubble.classList.add('show');
-
-        // Hide after 5 seconds
-        attributionTimeout = setTimeout(() => {
-            attributionBubble.classList.remove('show');
-        }, 5000);
+    // show bubble
+function showAttribution(track) {
+    // Clear any existing timeout
+    if (attributionTimeout) {
+        clearTimeout(attributionTimeout);
     }
 
+    // Update attribution text
+    attributionBubble.innerHTML = `
+        ${track.name} - ${track.artist} 
+        <a href="${track.link}" target="_blank">Listen here</a>
+    `;
+
+    // Show bubble
+    attributionBubble.style.opacity = '1';
+
+    // Hide after 5 seconds
+    attributionTimeout = setTimeout(() => {
+        attributionBubble.style.opacity = '0';
+    }, 5000);
+}
     // Select a random track, avoiding recently played tracks
     function getRandomTrack() {
         // If we've played all tracks, reset the previous tracks
