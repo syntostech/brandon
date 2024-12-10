@@ -23,9 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
             url: "https://syntos.xyz/music/heroes.mp3",
             link: "https://alesso.lnk.to/forever"
         }
+        {
+            name: "To be loved",
+            artist: "AURORA & Askjell",
+            url: "https://syntos.xyz/music/loved.mp3",
+            link: "https://askjell.lnk.to/ToBeLoved_ftAuroraID"
+        }
     ];
 
-    let currentTrackIndex = 0;
+    let previousTracks = [];
     let attributionTimeout;
 
     // Show attribution bubble
@@ -50,29 +56,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000);
     }
 
-    // Play a specific track
-    function playTrack(index) {
-        currentTrackIndex = index;
-        audioPlayer.src = playlist[index].url;
+    // Select a random track, avoiding recently played tracks
+    function getRandomTrack() {
+        // If we've played all tracks, reset the previous tracks
+        if (previousTracks.length >= playlist.length) {
+            previousTracks = [];
+        }
+
+        // Filter out previously played tracks
+        const availableTracks = playlist.filter(track => 
+            !previousTracks.includes(track)
+        );
+
+        // Select a random track from available tracks
+        const randomIndex = Math.floor(Math.random() * availableTracks.length);
+        const selectedTrack = availableTracks[randomIndex];
+        
+        // Add to previous tracks
+        previousTracks.push(selectedTrack);
+
+        return selectedTrack;
+    }
+
+    // Play a random track
+    function playRandomTrack() {
+        const track = getRandomTrack();
+        
+        audioPlayer.src = track.url;
         
         audioPlayer.play()
             .then(() => {
                 playlistButton.textContent = 'Pause';
                 // Show attribution for current track
-                showAttribution(playlist[index]);
+                showAttribution(track);
             })
             .catch(error => {
                 console.error('Error playing track:', error);
-                alert('this song cannot be played at this time.');
+                alert('this song cannot be played at this time');
             });
     }
 
     // Toggle play/pause
     playlistButton.addEventListener('click', () => {
         if (audioPlayer.paused) {
-            // If no track is playing, start from the beginning or current track
+            // If no track is playing, start with a random track
             if (audioPlayer.src === '') {
-                playTrack(0);
+                playRandomTrack();
             } else {
                 audioPlayer.play()
                     .then(() => {
@@ -85,9 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Auto-play next track
+    // Auto-play next random track
     audioPlayer.addEventListener('ended', () => {
-        currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
-        playTrack(currentTrackIndex);
+        playRandomTrack();
     });
 });
