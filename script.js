@@ -92,12 +92,14 @@ function playRandomTrack() {
             showAttribution(track);
 
             // Set a timeout to switch to the next track after 30 seconds
-            audioPlayer.addEventListener('timeupdate', function() {
-                if (this.currentTime >= 30) {
-                    this.pause();
+            const timeUpdateHandler = () => {
+                if (audioPlayer.currentTime >= 30) {
+                    audioPlayer.removeEventListener('timeupdate', timeUpdateHandler);
+                    audioPlayer.pause();
                     playRandomTrack();
                 }
-            }, { once: true });
+            };
+            audioPlayer.addEventListener('timeupdate', timeUpdateHandler);
         })
         .catch(error => {
             console.error('Error playing track:', error);
