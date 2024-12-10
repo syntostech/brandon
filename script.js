@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
             artist: "Alesso & Tove Lo",
             url: "https://syntos.xyz/music/heroes.mp3",
             link: "https://alesso.lnk.to/forever"
-        }
+        },
         {
             name: "To be loved",
             artist: "AURORA & Askjell",
