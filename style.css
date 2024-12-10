@@ -73,6 +73,7 @@ body {
     margin-top: 20px;
     width: 100%;
 }
+
 .playlist-button {
     position: relative;
     display: block;
@@ -119,6 +120,7 @@ body {
         background-position: 0% 50%;
     }
 }
+
 
 .playlist-button:hover {
     background-color: #002c9c;
@@ -261,5 +263,6 @@ body {
         background-position: 0% 50%;
     }
 }
+
 
 }
