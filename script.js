@@ -48,10 +48,12 @@ function showAttribution(track) {
     `;
 
     // Show bubble
+    attributionBubble.style.display = 'block';
     attributionBubble.style.opacity = '1';
 
     // Hide after 5 seconds
     attributionTimeout = setTimeout(() => {
+        attributionBubble.style.display = 'none';
         attributionBubble.style.opacity = '0';
     }, 5000);
 }
