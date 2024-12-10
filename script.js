@@ -8,25 +8,25 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: "The River (Remix)",
             artist: "AURORA & Askjell",
-            url: "https://syntos.xyz/music/river.mp3",
+            url: "https://syntos.xyz/music/brandon/river.mp3",
             link: "https://youtu.be/Q2kURz7xFj8"
         },
         {
             name: "CrossFire",
             artist: "Stephen", 
-            url: "https://syntos.xyz/music/crossfire.mp3",
+            url: "https://syntos.xyz/music/brandon/crossfire.mp3",
             link: "https://mrsuicidesheep.ffm.to/stephen-crossfire"
         },
         {
             name: "Heroes",
             artist: "Alesso & Tove Lo",
-            url: "https://syntos.xyz/music/heroes.mp3",
+            url: "https://syntos.xyz/music/brandon/heroes.mp3",
             link: "https://alesso.lnk.to/forever"
         },
         {
             name: "To be loved",
             artist: "AURORA & Askjell",
-            url: "https://syntos.xyz/music/loved.mp3",
+            url: "https://syntos.xyz/music/brandon/loved.mp3",
             link: "https://askjell.lnk.to/ToBeLoved_ftAuroraID"
         }
     ];
