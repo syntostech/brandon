@@ -79,24 +79,31 @@ function showAttribution(track) {
         return selectedTrack;
     }
 
-    // Play a random track
-    function playRandomTrack() {
-        const track = getRandomTrack();
-        
-        audioPlayer.src = track.url;
-        
-        audioPlayer.play()
-            .then(() => {
-                playlistButton.textContent = 'Pause';
-                // Show attribution for current track
-                showAttribution(track);
-            })
-            .catch(error => {
-                console.error('Error playing track:', error);
-                alert('this song cannot be played at this time');
-            });
-    }
+// Play a random track
+function playRandomTrack() {
+    const track = getRandomTrack();
 
+    audioPlayer.src = track.url;
+
+    audioPlayer.play()
+        .then(() => {
+            playlistButton.textContent = 'Pause';
+            // Show attribution for current track
+            showAttribution(track);
+
+            // Set a timeout to switch to the next track after 30 seconds
+            audioPlayer.addEventListener('timeupdate', function() {
+                if (this.currentTime >= 30) {
+                    this.pause();
+                    playRandomTrack();
+                }
+            }, { once: true });
+        })
+        .catch(error => {
+            console.error('Error playing track:', error);
+            alert('this song cannot be played at this time');
+        });
+}
     // Toggle play/pause
     playlistButton.addEventListener('click', () => {
         if (audioPlayer.paused) {
