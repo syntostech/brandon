@@ -85,18 +85,38 @@ function playRandomTrack() {
 
     audioPlayer.src = track.url;
 
+    // Fade in the new track
+    audioPlayer.volume = 0;
     audioPlayer.play()
         .then(() => {
             playlistButton.textContent = 'Pause';
             // Show attribution for current track
             showAttribution(track);
 
+            // Fade in the new track
+            let fadeInInterval = setInterval(() => {
+                if (audioPlayer.volume < 1) {
+                    audioPlayer.volume += 0.1;
+                } else {
+                    clearInterval(fadeInInterval);
+                }
+            }, 100);
+
             // Set a timeout to switch to the next track after 30 seconds
             const timeUpdateHandler = () => {
-                if (audioPlayer.currentTime >= 30) {
+                if (audioPlayer.currentTime >= 60) {
                     audioPlayer.removeEventListener('timeupdate', timeUpdateHandler);
-                    audioPlayer.pause();
-                    playRandomTrack();
+
+                    // Fade out the current track
+                    let fadeOutInterval = setInterval(() => {
+                        if (audioPlayer.volume > 0) {
+                            audioPlayer.volume -= 0.1;
+                        } else {
+                            clearInterval(fadeOutInterval);
+                            audioPlayer.pause();
+                            playRandomTrack();
+                        }
+                    }, 100);
                 }
             };
             audioPlayer.addEventListener('timeupdate', timeUpdateHandler);
