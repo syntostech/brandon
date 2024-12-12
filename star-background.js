@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
             star.style.height = `${size}px`;
             
             // Random position (start from behind the screen)
-            star.style.left = `-${Math.random() * 50}%`;
-            star.style.top = `${Math.random() * 100}%`;
+            star.style.left = `-${Math.random() * 100}vw`;
+            star.style.top = `${Math.random() * 100}vh`;
             
             // Random twinkle delay and duration
             star.style.animationDelay = `${Math.random() * 5}s`;
