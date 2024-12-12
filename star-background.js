@@ -13,17 +13,17 @@ document.addEventListener('DOMContentLoaded', () => {
             star.style.width = `${size}px`;
             star.style.height = `${size}px`;
             
-            // Random position (start from behind the screen)
-            star.style.left = `-${Math.random() * 100}vw`;
-            star.style.top = `${Math.random() * 100}vh`;
+            // Random position
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
             
             // Random twinkle delay and duration
             star.style.animationDelay = `${Math.random() * 5}s`;
             star.style.animationDuration = `${Math.random() * 3 + 2}s`;
             
-            // Add movement towards the screen
-            star.style.animation = 'twinkle 5s ease-in-out infinite, move 10s linear infinite';
-            star.style.animationDelay = `${Math.random() * 5}s`;
+            // Optional: Add subtle movement
+            star.style.animation += ', move 10s infinite';
+            star.style.animationDelay += `, ${Math.random() * 5}s`;
             
             starBackground.appendChild(star);
         }
