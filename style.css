@@ -139,7 +139,7 @@ body {
     position: absolute;
     background-color: rgba(255, 255, 255, 0.6);
     border-radius: 50%;
-    animation: twinkle 5s ease-in-out infinite, move 10s linear infinite;
+    animation: twinkle ease-in-out infinite;
 }
 
 @keyframes twinkle {
@@ -155,10 +155,13 @@ body {
 
 @keyframes move {
     0% {
-        transform: translateX(0) translateY(0) scale(1);
+        transform: translateX(0) translateY(0);
+    }
+    50% {
+        transform: translateX(20px) translateY(10px);
     }
     100% {
-        transform: translateX(100vw) translateY(0) scale(2);
+        transform: translateX(0) translateY(0);
     }
 }
 
