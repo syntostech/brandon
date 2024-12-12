@@ -155,10 +155,10 @@ body {
 
 @keyframes move {
     0% {
-        transform: translateX(-100%) translateY(0) scale(1);
+        transform: translateX(0) translateY(0) scale(1);
     }
     100% {
-        transform: translateX(100%) translateY(0) scale(2);
+        transform: translateX(100vw) translateY(0) scale(2);
     }
 }
 
