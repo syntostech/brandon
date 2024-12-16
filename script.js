@@ -24,6 +24,24 @@ document.addEventListener('DOMContentLoaded', () => {
             link: "https://alesso.lnk.to/forever"
         },
         {
+            name: "Medicine",
+            artist: "Daughter",
+            url: "https://syntos.xyz/cdn/music/brandon/medicine.mp3",
+            link: "https://youtu.be/_lhkfaqFmpM"
+        },
+        {
+            name: "Human",
+            artist: "Daughter",
+            url: "https://syntos.xyz/cdn/music/brandon/human.mp3",
+            link: "https://smarturl.it/daughteritunes"
+        },
+        {
+            name: "The Greatest",
+            artist: "Sia & Kendrick Lamar",
+            url: "https://syntos.xyz/cdn/music/brandon/greatest.mp3",
+            link: "https://sia.lnk.to/listenYD"
+        },
+        {
             name: "To be loved",
             artist: "AURORA & Askjell",
             url: "https://syntos.xyz/cdn/music/brandon/loved.mp3",
