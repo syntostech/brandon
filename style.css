@@ -54,7 +54,7 @@ body {
     padding: 15px 20px;
     margin: 10px 0;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 12px;
     width: 100%;
     box-sizing: border-box;
     text-align: center;
@@ -219,6 +219,7 @@ body {
     .button {
         font-size: 15px;
         padding: 15px 15px;
+        border-radius: 12px;
     }
     
 .playlist-button {
