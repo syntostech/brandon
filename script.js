@@ -1,3 +1,4 @@
+<!-- 
 document.addEventListener('DOMContentLoaded', () => {
     const playlistButton = document.getElementById('playlistButton');
     const audioPlayer = document.getElementById('audioPlayer');
@@ -6,47 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const playlist = [
         {
-            name: "The River (Remix)",
-            artist: "AURORA & Askjell",
-            url: "https://syntos.xyz/cdn/music/brandon/river.mp3",
-            link: "https://youtu.be/Q2kURz7xFj8"
-        },
-        {
-            name: "CrossFire",
-            artist: "Stephen", 
-            url: "https://syntos.xyz/cdn/music/brandon/crossfire.mp3",
-            link: "https://mrsuicidesheep.ffm.to/stephen-crossfire"
-        },
-        {
-            name: "Heroes",
-            artist: "Alesso & Tove Lo",
-            url: "https://syntos.xyz/cdn/music/brandon/heroes.mp3",
-            link: "https://alesso.lnk.to/forever"
-        },
-        {
-            name: "Medicine",
-            artist: "Daughter",
-            url: "https://syntos.xyz/cdn/music/brandon/medicine.mp3",
-            link: "https://youtu.be/_lhkfaqFmpM"
-        },
-        {
-            name: "Human",
-            artist: "Daughter",
-            url: "https://syntos.xyz/cdn/music/brandon/human.mp3",
-            link: "https://smarturl.it/daughteritunes"
-        },
-        {
-            name: "The Greatest",
-            artist: "Sia & Kendrick Lamar",
-            url: "https://syntos.xyz/cdn/music/brandon/greatest.mp3",
-            link: "https://sia.lnk.to/listenYD"
-        },
-        {
-            name: "To be loved",
-            artist: "AURORA & Askjell",
-            url: "https://syntos.xyz/cdn/music/brandon/loved.mp3",
-            link: "https://askjell.lnk.to/ToBeLoved_ftAuroraID"
-        }
+            name: "example",
+            artist: "example",
+            url: "example",
+            link: "example"
     ];
 
     let previousTracks = [];
@@ -165,4 +129,4 @@ function playRandomTrack() {
     audioPlayer.addEventListener('ended', () => {
         playRandomTrack();
     });
-});
+});-->
