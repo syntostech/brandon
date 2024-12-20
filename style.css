@@ -12,6 +12,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .container {
@@ -19,6 +20,8 @@ body {
     width: 100%;
     max-width: 400px;
     margin-top: 0;
+    position: relative;
+    z-index: 1;
 }
 
 .profile {
@@ -78,7 +81,7 @@ body {
 .playlist-container {
     margin-top: 20px;
     width: 100%;
-    margin-bottom: 80px; /* Add this line to create space for the footer */
+    margin-bottom: 120px;
 }
 
 .footer {
@@ -97,6 +100,34 @@ body {
     margin: 0;
 }
 
+.star-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    animation: twinkle ease-in-out infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0.2;
+        transform: scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 @media screen and (max-width: 480px) {
     body {
         padding: 30px 15px 15px;
@@ -113,63 +144,10 @@ body {
         border-color: #222;
         border: solid #222;
     }
-
     .button {
         font-size: 15px;
         padding: 15px 15px;
         border-radius: 12px;
     }
     
-.playlist-button {
-    position: relative;
-    display: block;
-    background-color: #222;
-    color: white;
-    padding: 15px 20px;
-    margin: 10px 0;
-    text-decoration: none;
-    border-radius: 5px;
-    width: 100%;
-    box-sizing: border-box;
-    text-align: center;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    overflow: hidden;
-    border: none;
-}
-
-.playlist-button::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 5px;
-    box-sizing: border-box;
-    border: 4px solid #808080;
-    animation: border-animation 5s ease-in-out infinite;
-}
-
-.playlist-button:hover {
-    background-color: #333;
-}
-
-
-@keyframes border-animation {
-    0% {
-        border-image: linear-gradient(to right, #ffd700, #222, #ffd700) 1;
-        border-image-slice: 1;
-    }
-    50% {
-        border-image: linear-gradient(to right, #222, #ffd700, #222) 1;
-        border-image-slice: 1;
-    }
-    100% {
-        border-image: linear-gradient(to right, #ffd700, #222, #ffd700) 1;
-        border-image-slice: 1;
-    }
-}
-
 }
