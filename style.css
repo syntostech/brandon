@@ -198,6 +198,22 @@ body {
     margin-left: 5px;
 }
 
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #000;
+    color: #808080;
+    padding: 10px 0;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+}
+
+.footer-text {
+    margin: 0;
+}
+
 
 @media screen and (max-width: 480px) {
     body {
