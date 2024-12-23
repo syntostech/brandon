@@ -15,8 +15,8 @@
     <div class="container">
         <h1>Choose Your Region</h1>
         <div class="buttons">
-            <button class="button" onclick="selectRegion('us')">United States</button>
-            <button class="button" onclick="selectRegion('latam')">Latin America</button>
+            <button class="button" onclick="selectRegion('global')">GLOBAL</button>
+            <button class="button" onclick="selectRegion('latam')">LATAM</button>
         </div>
     </div>
 
@@ -24,7 +24,7 @@
     <script>
         function selectRegion(region) {
             const urls = {
-                'us': 'https://www.syntos.xyz',
+                'global': 'https://www.syntos.xyz',
                 'latam': 'https://www.roadmap.lat'
             };
             window.location.href = urls[region];
