@@ -38,8 +38,8 @@ body {
 }
 
 .profile img {
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     border-width: 5px;
     border: solid #222;
@@ -138,8 +138,8 @@ body {
     }
 
     .profile img {
-        width: 130px;
-        height: 130px;
+        width: 150px;
+        height: 150px;
         border-width: 5px;
         border-color: #222;
         border: solid #222;
