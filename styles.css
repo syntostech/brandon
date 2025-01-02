@@ -79,9 +79,6 @@ a:hover {
     transition: transform 0.2s ease;
 }
 
-.music-player:hover {
-    transform: scale(1.01);
-}
 
 .cursor {
     display: inline-block;
