@@ -59,6 +59,30 @@ a:hover {
     text-decoration: underline;
 }
 
+.music-section {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.music-header {
+    opacity: 0.7;
+    margin-bottom: 1rem;
+    font-size: 1.1em;
+}
+
+.music-player {
+    width: 100%;
+    transition: transform 0.2s ease;
+}
+
+.music-player:hover {
+    transform: scale(1.01);
+}
+
 .cursor {
     display: inline-block;
     width: 8px;
@@ -85,4 +109,8 @@ a:hover {
     .project-details {
         padding-left: 0.5rem;
     }
+
+    .music-section {
+        padding: 0.75rem;
 }
+    }
