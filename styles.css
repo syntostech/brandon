@@ -14,11 +14,22 @@ body {
 
 .container {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 0;
 }
 
 .header {
     margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 60px;
+    margin-bottom: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .username {
@@ -28,7 +39,28 @@ body {
 
 .last-login {
     opacity: 0.7;
+    margin-bottom: 1rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 1.5rem;
     margin-bottom: 2rem;
+}
+
+.social-link {
+    color: white;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.social-link:hover {
+    opacity: 1;
+    text-decoration: none;
 }
 
 .project {
@@ -79,7 +111,6 @@ a:hover {
     transition: transform 0.2s ease;
 }
 
-
 .cursor {
     display: inline-block;
     width: 8px;
@@ -109,5 +140,9 @@ a:hover {
 
     .music-section {
         padding: 0.75rem;
-}
     }
+
+    .social-links {
+        gap: 1rem;
+    }
+}
