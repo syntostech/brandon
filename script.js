@@ -2,9 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const lastLoginElement = document.getElementById('lastLogin');
     const currentDate = new Date();
     lastLoginElement.textContent = `Last login: ${currentDate.toLocaleString()}`;
-});
 
-// Telegram Promo Bubble Logic
+    // Telegram Promo Bubble Logic
     const telegramBubble = document.getElementById('telegram-promo');
     const closeTelegramBubble = document.getElementById('closeTelegramBubble');
 
@@ -21,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('telegramBubbleClosed', 'true');
     });
 
+    // Optional: Auto-show bubble after certain time
     setTimeout(() => {
         if (!localStorage.getItem('telegramBubbleClosed')) {
             telegramBubble.classList.remove('hidden');
