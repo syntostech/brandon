@@ -120,6 +120,53 @@ a:hover {
     animation: blink 1s infinite;
 }
 
+.telegram-bubble {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #0088cc;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideUp 0.5s ease-out;
+            max-width: 300px;
+            z-index: 1000;
+        }
+        .telegram-bubble-close {
+            cursor: pointer;
+            margin-left: auto;
+        }
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translate(-50%, 100%); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translate(-50%, 0); 
+            }
+        }
+        .telegram-bubble.hidden {
+            animation: slideDown 0.5s ease-out;
+            animation-fill-mode: forwards;
+        }
+        @keyframes slideDown {
+            from { 
+                opacity: 1; 
+                transform: translate(-50%, 0); 
+            }
+            to { 
+                opacity: 0; 
+                transform: translate(-50%, 100%);
+                display: none;
+            }
+        }
+
 @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
