@@ -4,10 +4,26 @@ document.addEventListener('DOMContentLoaded', function() {
     lastLoginElement.textContent = `Last login: ${currentDate.toLocaleString()}`;
 });
 
-function closeTelegramBubble() {
-            const bubble = document.getElementById('telegramBubble');
-            bubble.classList.add('hidden');
-            setTimeout(() => {
-                bubble.style.display = 'none';
-            }, 500);
+// Telegram Promo Bubble Logic
+    const telegramBubble = document.getElementById('telegram-promo');
+    const closeTelegramBubble = document.getElementById('closeTelegramBubble');
+
+    // Check if bubble has been closed before
+    const isBubbleClosed = localStorage.getItem('telegramBubbleClosed');
+    
+    if (isBubbleClosed) {
+        telegramBubble.classList.add('hidden');
+    }
+
+    closeTelegramBubble.addEventListener('click', function() {
+        telegramBubble.classList.add('hidden');
+        // Remember that bubble was closed
+        localStorage.setItem('telegramBubbleClosed', 'true');
+    });
+
+    setTimeout(() => {
+        if (!localStorage.getItem('telegramBubbleClosed')) {
+            telegramBubble.classList.remove('hidden');
         }
+    }, 3000); // Show after 3 seconds
+});
