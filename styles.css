@@ -73,13 +73,36 @@ body {
     margin-bottom: 0.5rem;
 }
 
-.little-details {
-    color: #a3a3a3;
-    padding-left: 1rem;
+.project-details {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
 }
 
-.little-details p {
-        margin-bottom: 0.25rem;
+.project-details p {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.label {
+    color: #a3a3a3;
+    min-width: 4rem;
+    display: inline-block;
+}
+
+.cursor {
+    width: 8px;
+    height: 20px;
+    background-color: white;
+    display: inline-block;
+    animation: blink 1s infinite;
+    margin-left: 1rem;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
 a {
@@ -111,15 +134,6 @@ a:hover {
 .music-player {
     width: 100%;
     transition: transform 0.2s ease;
-}
-
-.cursor {
-    display: inline-block;
-    width: 8px;
-    height: 20px;
-    background-color: white;
-    margin-top: 2rem;
-    animation: blink 1s infinite;
 }
 
 .telegram-bubble {
@@ -191,7 +205,7 @@ a:hover {
     body {
         padding: 15px;
     }
-
+    
     .profile-picture {
         width: 120px;
         height: 120px;
@@ -199,7 +213,7 @@ a:hover {
         margin-bottom: 1rem;
         border: 3px solid white;
     }
-        
+    
     .username {
         font-size: 20px;
     }
@@ -207,11 +221,11 @@ a:hover {
     .project-details {
         padding-left: 0.5rem;
     }
-
+    
     .music-section {
         padding: 0.75rem;
     }
-
+    
     .social-links {
         gap: 1rem;
     }
