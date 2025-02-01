@@ -84,10 +84,19 @@ body {
     align-items: flex-start;
 }
 
-.label {
-    color: #a3a3a3;
-    min-width: 4rem;
+.little-details {
     display: inline-block;
+    min-width: 60px; /* Adjust this value based on your longest label */
+}
+
+.project p {
+    margin-left: 1rem;
+    line-height: 1.5;
+}
+
+.little-details::after {
+    content: ':';
+    margin-right: 8px;
 }
 
 .cursor {
