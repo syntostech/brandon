@@ -1,29 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const lastLoginElement = document.getElementById('lastLogin');
-    const telegramBubble = document.getElementById('telegram-promo');
-    const closeTelegramBubble = document.getElementById('closeTelegramBubble');
-
-    if (lastLoginElement) {
-        const currentDate = new Date();
-        lastLoginElement.textContent = `Last login: ${currentDate.toLocaleString()}`;
-    }
-
-    if (telegramBubble && closeTelegramBubble) {
-        const isBubbleClosed = localStorage.getItem('telegramBubbleClosed');
-        
-        if (isBubbleClosed) {
-            telegramBubble.classList.add('hidden');
-        }
-
-        closeTelegramBubble.addEventListener('click', function() {
-            telegramBubble.classList.add('hidden');
-            localStorage.setItem('telegramBubbleClosed', Date.now().toString());
-        });
-
-        setTimeout(() => {
-            if (!localStorage.getItem('telegramBubbleClosed')) {
-                telegramBubble.classList.remove('hidden');
+            const lastLoginElement = document.getElementById('lastLogin');
+            if (lastLoginElement) {
+                const currentDate = new Date();
+                lastLoginElement.textContent = `Last login: ${currentDate.toLocaleString()}`;
             }
-        }, 3000);
-    }
-});
+
+            // Add staggered animation delay to cards
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
