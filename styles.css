@@ -43,6 +43,10 @@
             margin-bottom: 1rem;
         }
 
+       .last-login {
+              font-size: 14px;
+       }
+
         .social-links {
             display: flex;
             gap: 1.5rem;
