@@ -184,6 +184,90 @@
             text-decoration: none;
         }
 
+.newsletter-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.newsletter-form-input {
+    font-family: 'Roboto Mono', monospace;
+    color: white;
+    font-size: 15px;
+    margin: 0 0 10px;
+    width: 100%;
+    max-width: 300px;
+    min-width: 100px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;
+    border-radius: 15px;
+    padding: 8px 12px;
+    transition: border-color 0.3s ease;
+}
+
+.newsletter-form-input:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.newsletter-form-input::placeholder {
+    color: #a3a3a3;
+}
+
+.newsletter-form-button {
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 14px;
+    color: white;
+    font-family: 'Roboto Mono', monospace;
+    display: flex;
+    width: 100%;
+    max-width: 300px;
+    white-space: normal;
+    height: 38px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    padding: 9px 17px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;
+    border-radius: 15px;
+    text-align: center;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.newsletter-form-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.newsletter-loading-button {
+    /* Same styles as newsletter-form-button */
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 14px;
+    color: white;
+    font-family: 'Roboto Mono', monospace;
+    display: none;
+    width: 100%;
+    max-width: 300px;
+    white-space: normal;
+    height: 38px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    padding: 9px 17px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;
+    border-radius: 15px;
+    text-align: center;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
         @media (max-width: 600px) {
             body {
                 padding: 15px;
