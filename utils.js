@@ -1,11 +1,10 @@
 // utils.js - Utility functions
-function initLastLogin() {
+document.addEventListener('DOMContentLoaded', function() {
     const lastLoginElement = document.getElementById('lastLogin');
     if (lastLoginElement) {
         const currentDate = new Date();
         lastLoginElement.textContent = `Last login: ${currentDate.toLocaleString()}`;
     }
-}
 
 function initCardAnimations() {
     const cards = document.querySelectorAll('.card');
