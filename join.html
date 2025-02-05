@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://syntos.xyz/cdn/img/favicon.png" type="image/x-icon">
-    <title>Join my Telegram Channel</title>
+    <title>Join Our Telegram Channel</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         * {
@@ -17,16 +17,29 @@
         body {
             background-color: #000000;
             color: white;
-            padding: 20px;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            padding: 20px;
         }
 
         .card {
@@ -34,16 +47,30 @@
             padding: 2.5rem;
             border-radius: 15px;
             background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
             transform: translateY(20px);
             opacity: 0;
             animation: fadeInUp 0.6s ease forwards;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .card:hover {
-            transform: translateY(-2px);
-            border-color: rgba(255, 255, 255, 0.2);
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .card:hover::before {
+            opacity: 1;
         }
 
         @keyframes fadeInUp {
@@ -70,6 +97,29 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .telegram-icon::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 50%;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transform: scale(1.2);
+            transition: all 0.3s ease;
+        }
+
+        .telegram-icon:hover::after {
+            opacity: 1;
+            transform: scale(1);
         }
 
         .telegram-icon svg {
@@ -78,13 +128,20 @@
             color: white;
         }
 
+        .telegram-icon.clicked {
+            animation: expandAndContract 0.5s ease;
+        }
+
+        @keyframes expandAndContract {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
         .telegram-content h1 {
             font-size: 2.5em;
             font-weight: 500;
             margin-bottom: 1rem;
-            background: linear-gradient(90deg, #fff, #0088cc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
         }
 
         .telegram-content p {
@@ -99,34 +156,62 @@
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
-            background-color: #0088cc;
-            color: white;
+            background-color: white;
+            color: black;
             padding: 1rem 2rem;
             border-radius: 12px;
             text-decoration: none;
             transition: all 0.3s ease;
             font-size: 1.1em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .telegram-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .telegram-button:hover::before {
+            left: 100%;
         }
 
         .telegram-button:hover {
-            background-color: #00a2ff;
             transform: translateY(-2px);
+            background-color: rgba(255, 255, 255, 0.9);
         }
 
-        .pulse {
-            animation: pulse 2s infinite;
+        .telegram-button svg {
+            transition: transform 0.3s ease;
         }
 
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 20px rgba(0, 136, 204, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(0, 136, 204, 0);
-            }
+        .telegram-button:hover svg {
+            transform: translateX(5px);
+        }
+
+        .members-count {
+            font-size: 0.9em;
+            color: #a3a3a3;
+            margin-top: 1rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .members-count.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         @media (max-width: 600px) {
@@ -149,24 +234,105 @@
     </style>
 </head>
 <body>
+    <canvas class="particles"></canvas>
     <div class="container">
         <div class="card">
             <div class="telegram-content">
-                <div class="telegram-icon pulse">
+                <div class="telegram-icon" id="telegramIcon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.91 6.977c-1.164.479-1.355 1.126-1.355 1.462 0 .283.215.668.898.876l4.849 1.876c.558.173 1.054.098 1.37-.127l8.198-6.15c.367-.276.705-.193.705.193 0 .193-.193.668-.432.91l-6.081 5.915c-.367.276-.367.715-.193 1.126l1.876 5.915c.286.892 1.126 1.164 1.907.715l2.598-1.411c.832-.463 1.411-.152 2.065.127l3.335 1.685c.976.491 1.685.088 1.907-.715l3.823-15.149c.215-.976-.367-1.685-1.314-1.876Z"/>
                     </svg>
                 </div>
-                <h1>Join my Telegram Community</h1>
-                <p>Connect with me to get the latest news, insights, and exclusive content</p>
-                <a href="https://t.me/brandonvasp" class="telegram-button">
+                <h1>Join Our Community</h1>
+                <p>Stay connected with the latest updates and exclusive content. Join our thriving Telegram community today!</p>
+                <a href="https://t.me/brandonvasp" class="telegram-button" id="joinButton">
                     Join Channel
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
                 </a>
+                <div class="members-count" id="membersCount"></div>
             </div>
         </div>
     </div>
+
+    <script>
+        // Particle animation
+        const canvas = document.querySelector('.particles');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 100;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.opacity = Math.random() * 0.3;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > width) this.x = 0;
+                if (this.x < 0) this.x = width;
+                if (this.y > height) this.y = 0;
+                if (this.y < 0) this.y = height;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        // Interactive elements
+        const telegramIcon = document.getElementById('telegramIcon');
+        const membersCount = document.getElementById('membersCount');
+        let clicks = 0;
+
+        telegramIcon.addEventListener('click', () => {
+            telegramIcon.classList.add('clicked');
+            clicks++;
+            
+            if (clicks === 3) {
+                membersCount.textContent = '🎉 Join 1000+ amazing members!';
+                membersCount.classList.add('visible');
+            }
+
+            setTimeout(() => {
+                telegramIcon.classList.remove('clicked');
+            }, 500);
+        });
+    </script>
 </body>
 </html>
