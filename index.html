@@ -91,19 +91,41 @@
         </div>
 
         <!-- Telegram Section -->
-        <p class="section-header">connect</p>
-        <div class="card">
-            <div class="telegram-content">
-                <h3>Join my Telegram</h3>
-                <p>Get access to free tools and promotions</p>
-                <a href="https://t.me/brandonvasp" class="telegram-button">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-17.15 6.498a2.25 2.25 0 0 0-.799 3.76l4.368 3.497 10.14-9.147a.25.25 0 0 1 .352.354l-9.147 10.14 3.497 4.368a2.25 2.25 0 0 0 3.76-.799l6.498-17.15a2.242 2.242 0 0 0-.215-1.022z"/>
-                    </svg>
-                    Join Now
-                </a>
-            </div>
-        </div>
+        <p class="section-header">join my community</p>
+<div class="newsletter-form-container">
+    <form class="newsletter-form" action="https://app.loops.so/api/newsletter-form/cm3e25iaz00wyim6ppw31o1ku" method="POST" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
+        <input 
+            class="newsletter-form-input" 
+            name="firstName" 
+            type="text" 
+            placeholder="your name" 
+            required 
+        />
+        <input 
+            class="newsletter-form-input" 
+            name="newsletter-form-input" 
+            type="email" 
+            placeholder="your email address" 
+            required 
+        />
+        <button type="submit" class="newsletter-form-button">Join Now</button>
+        <button type="button" class="newsletter-loading-button">Please wait...</button>
+    </form>
+    <div class="newsletter-success" style="display: none; align-items: center; justify-content: center; width: 100%;">
+        <p class="newsletter-success-message" style="font-family: 'Roboto Mono', monospace; color: white; font-size: 14px;">Thanks, check your mail :D</p>
+    </div>
+    <div class="newsletter-error" style="display: none; align-items: center; justify-content: center; width: 100%;">
+        <p class="newsletter-error-message" style="font-family: 'Roboto Mono', monospace; color: #ff4444; font-size: 14px;">Oops! Something went wrong, please try again</p>
+    </div>
+    <button 
+        class='newsletter-back-button'
+        type='button' 
+        style='color:#a3a3a3;font-family:"Roboto Mono",monospace;font-size:14px;margin:10px auto;text-align:center;display:none;background:transparent;border:none;cursor:pointer'
+        onmouseout='this.style.textDecoration="none"' 
+        onmouseover='this.style.textDecoration="underline"'>
+        &larr; Back
+    </button>
+</div>
     </div>
     <script src="script.js"></script>
 </body>
