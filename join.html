@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://syntos.xyz/cdn/img/favicon.png" type="image/x-icon">
+    <title>Join Our Telegram Channel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        body {
+            background-color: #000000;
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .telegram-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 2rem;
+        }
+
+        .telegram-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #0088cc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .telegram-icon svg {
+            width: 40px;
+            height: 40px;
+            color: white;
+        }
+
+        .telegram-content h1 {
+            font-size: 2.5em;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #fff, #0088cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .telegram-content p {
+            color: #a3a3a3;
+            line-height: 1.6;
+            font-size: 1.1em;
+            max-width: 600px;
+            margin-bottom: 1rem;
+        }
+
+        .telegram-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background-color: #0088cc;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        .telegram-button:hover {
+            background-color: #00a2ff;
+            transform: translateY(-2px);
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(0, 136, 204, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 136, 204, 0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .telegram-content h1 {
+                font-size: 1.8em;
+            }
+            
+            .telegram-content p {
+                font-size: 1em;
+            }
+            
+            .telegram-button {
+                padding: 0.75rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="telegram-content">
+                <div class="telegram-icon pulse">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.91 6.977c-1.164.479-1.355 1.126-1.355 1.462 0 .283.215.668.898.876l4.849 1.876c.558.173 1.054.098 1.37-.127l8.198-6.15c.367-.276.705-.193.705.193 0 .193-.193.668-.432.91l-6.081 5.915c-.367.276-.367.715-.193 1.126l1.876 5.915c.286.892 1.126 1.164 1.907.715l2.598-1.411c.832-.463 1.411-.152 2.065.127l3.335 1.685c.976.491 1.685.088 1.907-.715l3.823-15.149c.215-.976-.367-1.685-1.314-1.876Z"/>
+                    </svg>
+                </div>
+                <h1>Join Our Telegram Community</h1>
+                <p>Stay updated with the latest news, insights, and exclusive content. Join our growing community on Telegram and never miss an update!</p>
+                <a href="https://t.me/brandonvasp" class="telegram-button">
+                    Join Channel
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
