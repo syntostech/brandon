@@ -186,7 +186,8 @@
 .newsletter-form-container {
        max-width: 800px;
        margin-left: 0;
-       margin-right: auto;
+       max-width: 800px;
+       margin: 0;
 }
 
 .newsletter-form-input {
