@@ -143,3 +143,5 @@ class NewsletterManager {
         form.reset();
     }
 }
+
+
