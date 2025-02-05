@@ -149,40 +149,7 @@
             text-decoration: none;
         }
 
-        .telegram-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 1rem;
-        }
 
-        .telegram-content h3 {
-            font-size: 1.2em;
-            font-weight: 500;
-        }
-
-        .telegram-content p {
-            color: #a3a3a3;
-            line-height: 1.5;
-        }
-
-        .telegram-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background-color: #0088cc;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-
-        .telegram-button:hover {
-            background-color: #00a2ff;
-            text-decoration: none;
-        }
 .newsletter-container {
     margin: 3rem 0;
     background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
@@ -396,6 +363,115 @@
 
 .newsletter-back:hover {
     color: white;
+}
+
+.music-player {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 1.5rem;
+    color: white;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.music-player:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.now-playing {
+    margin-bottom: 1.5rem;
+}
+
+.track-info {
+    margin-bottom: 1rem;
+}
+
+.track-name {
+    font-size: 1.2em;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.artist-name {
+    color: #a3a3a3;
+    font-size: 0.9em;
+}
+
+.track-progress {
+    width: 100%;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    position: relative;
+}
+
+.progress-filled {
+    width: 0%;
+    height: 100%;
+    background: white;
+    border-radius: 2px;
+    transition: width 0.1s linear;
+}
+
+.time-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8em;
+    color: #a3a3a3;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    padding: 0.5rem;
+}
+
+.control-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.song-link {
+    color: white;
+    opacity: 0.8;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.song-link:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .music-player {
+        padding: 1rem;
+    }
+    
+    .controls {
+        gap: 1rem;
+    }
 }
 
 @media (max-width: 600px) {
