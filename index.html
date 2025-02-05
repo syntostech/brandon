@@ -75,20 +75,56 @@
             </div>
         </div>
 
-        <!-- Music Player Section -->
-        <p class="section-header">now_playing</p>
-        <div class="card">
-            <div class="music-player">
-                <iframe style="border-radius:8px" 
-                        src="https://open.spotify.com/embed/playlist/1GYq2K0qBneyim9qkbdlyb?utm_source=generator" 
-                        width="100%" 
-                        height="152" 
-                        frameBorder="0" 
-                        allow="encrypted-media" 
-                        loading="lazy">
-                </iframe>
+<!-- music Section -->
+    <div class="music-player">
+    <div class="now-playing">
+        <div class="track-info">
+            <div class="track-name">Loading...</div>
+            <div class="artist-name">Loading...</div>
+        </div>
+        <div class="track-progress">
+            <div class="progress-bar">
+                <div class="progress-filled"></div>
+            </div>
+            <div class="time-info">
+                <span class="current-time">0:00</span>
+                <span class="duration">0:00</span>
             </div>
         </div>
+    </div>
+    <div class="controls">
+        <button class="control-btn previous">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                <line x1="5" y1="19" x2="5" y2="5"></line>
+            </svg>
+        </button>
+        <button class="control-btn play-pause">
+            <svg class="play-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <svg class="pause-icon hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+        </button>
+        <button class="control-btn next">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                <line x1="19" y1="5" x2="19" y2="19"></line>
+            </svg>
+        </button>
+        <a href="#" class="song-link" target="_blank">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+        </a>
+    </div>
+    <!-- Hidden audio element for playback -->
+    <audio id="audio-player"></audio>
+</div>
 
         <!-- Telegram Section -->
 <p class="section-header">connect</p>
