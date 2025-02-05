@@ -1,6 +1,6 @@
 // utils.js - Utility functions
 
-// Make initCardAnimations available in global scope
+// Card animations function
 function initCardAnimations() {
     const cards = document.querySelectorAll('.card');
     cards.forEach((card, index) => {
@@ -8,7 +8,7 @@ function initCardAnimations() {
     });
 }
 
-// Separate function for last login
+// Last login function
 function initLastLogin() {
     const lastLoginElement = document.getElementById('lastLogin');
     if (lastLoginElement) {
@@ -20,4 +20,5 @@ function initLastLogin() {
 // Event listener
 document.addEventListener('DOMContentLoaded', function() {
     initLastLogin();
+    initCardAnimations();
 });
