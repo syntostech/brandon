@@ -91,43 +91,53 @@
         </div>
 
         <!-- Telegram Section -->
-        <p class="section-header">connect</p>
-        <h2 class="project-title">Join my community</h2>
-        <p class="project-description">Recieve 1 email per week with the secret sauce!</p>
-<div class="newsletter-form-container">
-    <form class="newsletter-form" action="https://app.loops.so/api/newsletter-form/cm3e25iaz00wyim6ppw31o1ku" method="POST" onsubmit="return false;" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
-        <input type="hidden" name="userGroup" value="broadcast">
-        <input 
-            class="newsletter-form-input" 
-            name="firstName" 
-            type="text" 
-            placeholder="your name" 
-            required 
-        />
-        <input 
-            class="newsletter-form-input" 
-            name="email" 
-            type="email" 
-            placeholder="your email address" 
-            required 
-        />
-        <button type="submit" class="newsletter-form-button">Join Now</button>
-        <button type="button" class="newsletter-loading-button">Please wait...</button>
-    </form>
-    <div class="newsletter-success" style="display: none; align-items: center; justify-content: center; width: 100%;">
-        <p class="newsletter-success-message" style="font-family: 'Roboto Mono', monospace; color: white; font-size: 14px;">Thanks, check your mail :D</p>
+<p class="section-header">connect</p>
+<div class="newsletter-container">
+    <div class="newsletter-content">
+        <h2 class="newsletter-title">Join my community</h2>
+        <p class="newsletter-description">Receive 1 email per week with the secret sauce!</p>
+        
+        <div class="newsletter-form-wrapper">
+            <form class="newsletter-form" action="https://app.loops.so/api/newsletter-form/cm3e25iaz00wyim6ppw31o1ku" method="POST">
+                <input type="hidden" name="userGroup" value="broadcast">
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <input class="newsletter-input" name="firstName" type="text" required>
+                        <label class="input-label">your name</label>
+                        <div class="input-line"></div>
+                    </div>
+                    <div class="input-wrapper">
+                        <input class="newsletter-input" name="email" type="email" required>
+                        <label class="input-label">your email address</label>
+                        <div class="input-line"></div>
+                    </div>
+                </div>
+                <button type="submit" class="newsletter-submit">
+                    <span class="button-text">Join Now</span>
+                    <span class="button-icon">→</span>
+                </button>
+                <button type="button" class="newsletter-loading">
+                    <span class="loading-spinner"></span>
+                    <span>Please wait...</span>
+                </button>
+            </form>
+        </div>
+        
+        <div class="newsletter-messages">
+            <div class="newsletter-success">
+                <span class="success-icon">✓</span>
+                <p>Thanks, check your mail :D</p>
+            </div>
+            <div class="newsletter-error">
+                <span class="error-icon">!</span>
+                <p>Oops! Something went wrong, please try again</p>
+            </div>
+        </div>
+        
+        <button type="button" class="newsletter-back">
+            ← Back
+        </button>
     </div>
-    <div class="newsletter-error" style="display: none; align-items: center; justify-content: center; width: 100%;">
-        <p class="newsletter-error-message" style="font-family: 'Roboto Mono', monospace; color: #ff4444; font-size: 14px;">Oops! Something went wrong, please try again</p>
-    </div>
-    <button 
-        class='newsletter-back-button'
-        type='button' 
-        style='color:#a3a3a3;font-family:"Roboto Mono",monospace;font-size:14px;margin:10px auto;text-align:center;display:none;background:transparent;border:none;cursor:pointer'
-        onmouseout='this.style.textDecoration="none"' 
-        onmouseover='this.style.textDecoration="underline"'>
-        &larr; Back
-    </button>
 </div>
     </div>
     <script src="script.js"></script>
