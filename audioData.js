@@ -1,10 +1,10 @@
 // audioData.js - Audio playlist data
 const AUDIO_PLAYLIST = [
     {
-        title: "Midnight City",
-        artist: "M83",
-        audioUrl: "https://your-audio-url-1.mp3",
-        link: "https://example.com/song1"
+        title: "Mr.Tambourine",
+        artist: "Aurora",
+        audioUrl: "https://www.syntos.xyz/cdn/songs/tambourine.mp3",
+        link: "https://www.youtube.com/watch?v=JvygwqECh4g"
     },
     {
         title: "Runaway",
