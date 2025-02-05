@@ -1,131 +1,134 @@
+// Last login update
 document.addEventListener('DOMContentLoaded', function() {
-            const lastLoginElement = document.getElementById('lastLogin');
-            if (lastLoginElement) {
-                const currentDate = new Date();
-                lastLoginElement.textContent = `Last login: ${currentDate.toLocaleString()}`;
-            }
+    const lastLoginElement = document.getElementById('lastLogin');
+    if (lastLoginElement) {
+        const currentDate = new Date();
+        lastLoginElement.textContent = `Last login: ${currentDate.toLocaleString()}`;
+    }
 
-            // Add staggered animation delay to cards
-            const cards = document.querySelectorAll('.card');
-            cards.forEach((card, index) => {
-                card.style.animationDelay = `${index * 0.2}s`;
-            });
-        });
+    // Add staggered animation delay to cards
+    const cards = document.querySelectorAll('.card');
+    cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.2}s`;
+    });
+});
 
+// Newsletter form functionality
 document.addEventListener('DOMContentLoaded', function() {
-    var formContainers = document.getElementsByClassName("newsletter-form-container");
+    const formContainers = document.querySelectorAll('.newsletter-container');
 
-    function submitHandler(event) {
-        event.preventDefault();
-        var container = event.target.closest(".newsletter-form-container");
-        var form = event.target;
-        var emailInput = form.querySelector('input[name="email"]');
-        var nameInput = form.querySelector('input[name="firstName"]');
-        var userGroupInput = form.querySelector('input[name="userGroup"]');
-        var success = container.querySelector(".newsletter-success");
-        var errorContainer = container.querySelector(".newsletter-error");
-        var errorMessage = container.querySelector(".newsletter-error-message");
-        var backButton = container.querySelector(".newsletter-back-button");
-        var submitButton = container.querySelector(".newsletter-form-button");
-        var loadingButton = container.querySelector(".newsletter-loading-button");
+    formContainers.forEach(container => {
+        const form = container.querySelector('.newsletter-form');
+        const emailInput = form.querySelector('input[name="email"]');
+        const nameInput = form.querySelector('input[name="firstName"]');
+        const submitButton = form.querySelector('.newsletter-submit');
+        const loadingButton = form.querySelector('.newsletter-loading');
+        const successMessage = container.querySelector('.newsletter-success');
+        const errorMessage = container.querySelector('.newsletter-error');
+        const backButton = container.querySelector('.newsletter-back');
+        const inputGroup = container.querySelector('.input-group');
 
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-
+        // Rate limiting function
         const rateLimit = () => {
-            errorContainer.style.display = "flex";
-            errorMessage.innerText = "Too many signups, please try again in a little while";
-            submitButton.style.display = "none";
-            emailInput.style.display = "none";
-            nameInput.style.display = "none";
-            backButton.style.display = "block";
-        }
+            errorMessage.style.display = 'flex';
+            errorMessage.querySelector('p').textContent = 'Too many signups, please try again in a little while';
+            submitButton.style.display = 'none';
+            inputGroup.style.display = 'none';
+            backButton.style.display = 'block';
+        };
 
-        var time = new Date();
-        var timestamp = time.valueOf();
-        var previousTimestamp = localStorage.getItem("loops-form-timestamp");
+        // Form submission handler
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
 
-        if (previousTimestamp && Number(previousTimestamp) + 60000 > timestamp) {
-            rateLimit();
-            return false;
-        }
-        localStorage.setItem("loops-form-timestamp", timestamp);
+            // Check rate limiting
+            const time = new Date().valueOf();
+            const previousTimestamp = localStorage.getItem('loops-form-timestamp');
 
-        submitButton.style.display = "none";
-        loadingButton.style.display = "flex";
-
-        var formBody = "userGroup=" + encodeURIComponent(userGroupInput.value) +
-            "&mailingLists=&email=" + encodeURIComponent(emailInput.value) + 
-            "&firstName=" + encodeURIComponent(nameInput.value);
-
-        fetch(form.action, {
-            method: "POST",
-            body: formBody,
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-        })
-        .then((res) => [res.ok, res.json(), res])
-        .then(([ok, dataPromise, res]) => {
-            if (ok) {
-                success.style.display = "flex";
-                form.reset();
-            } else {
-                dataPromise.then(data => {
-                    errorContainer.style.display = "flex";
-                    errorMessage.innerText = data.message
-                        ? data.message
-                        : res.statusText;
-                });
-            }
-        })
-        .catch(error => {
-            if (error.message === "Failed to fetch") {
+            if (previousTimestamp && Number(previousTimestamp) + 60000 > time) {
                 rateLimit();
                 return;
             }
-            errorContainer.style.display = "flex";
-            if (error.message) errorMessage.innerText = error.message;
-            localStorage.setItem("loops-form-timestamp", '');
-        })
-        .finally(() => {
-            emailInput.style.display = "none";
-            nameInput.style.display = "none";
-            loadingButton.style.display = "none";
-            backButton.style.display = "block";
+            localStorage.setItem('loops-form-timestamp', time);
+
+            // Show loading state
+            submitButton.style.display = 'none';
+            loadingButton.style.display = 'flex';
+
+            // Prepare form data
+            const formData = new URLSearchParams({
+                userGroup: 'broadcast',
+                email: emailInput.value,
+                firstName: nameInput.value
+            });
+
+            try {
+                // Submit form
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
+
+                if (response.ok) {
+                    // Show success message
+                    successMessage.style.display = 'flex';
+                    form.reset();
+                } else {
+                    // Show error message
+                    const data = await response.json();
+                    errorMessage.style.display = 'flex';
+                    errorMessage.querySelector('p').textContent = data.message || response.statusText;
+                }
+            } catch (error) {
+                // Handle fetch errors
+                if (error.message === 'Failed to fetch') {
+                    rateLimit();
+                    return;
+                }
+                errorMessage.style.display = 'flex';
+                errorMessage.querySelector('p').textContent = error.message || 'An error occurred';
+                localStorage.setItem('loops-form-timestamp', '');
+            } finally {
+                // Clean up UI
+                inputGroup.style.display = 'none';
+                loadingButton.style.display = 'none';
+                backButton.style.display = 'block';
+            }
         });
 
-        return false;
-    }
+        // Back button handler
+        backButton.addEventListener('click', function() {
+            // Reset form state
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            backButton.style.display = 'none';
+            inputGroup.style.display = 'flex';
+            submitButton.style.display = 'flex';
+            form.reset();
+        });
 
-    function resetFormHandler(event) {
-        var container = event.target.closest(".newsletter-form-container");
-        var form = container.querySelector(".newsletter-form");
-        var emailInput = form.querySelector('input[name="email"]');
-        var nameInput = form.querySelector('input[name="firstName"]');
-        var success = container.querySelector(".newsletter-success");
-        var errorContainer = container.querySelector(".newsletter-error");
-        var errorMessage = container.querySelector(".newsletter-error-message");
-        var backButton = container.querySelector(".newsletter-back-button");
-        var submitButton = container.querySelector(".newsletter-form-button");
+        // Input animation handlers
+        const inputs = container.querySelectorAll('.newsletter-input');
+        inputs.forEach(input => {
+            // Add focus animation
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('input-focused');
+            });
 
-        success.style.display = "none";
-        errorContainer.style.display = "none";
-        errorMessage.innerText = "Oops! Something went wrong, please try again";
-        backButton.style.display = "none";
-        emailInput.style.display = "flex";
-        nameInput.style.display = "flex";
-        submitButton.style.display = "flex";
-    }
+            // Remove focus animation if empty
+            input.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.parentElement.classList.remove('input-focused');
+                }
+            });
 
-    for (var i = 0; i < formContainers.length; i++) {
-        var formContainer = formContainers[i];
-        var form = formContainer.querySelector(".newsletter-form");
-        var backButton = formContainer.querySelector(".newsletter-back-button");
-        
-        form.addEventListener("submit", submitHandler);
-        backButton.addEventListener("click", resetFormHandler);
-    }
-}); });
+            // Check initial state (for browser autofill)
+            if (input.value) {
+                input.parentElement.classList.add('input-focused');
+            }
+        });
+    });
+});
