@@ -19,8 +19,4 @@ document.addEventListener('DOMContentLoaded', function() {
         const player = new AudioPlayerController();
     }
     
-    // Initialize newsletter if element exists
-    if (document.querySelector('.newsletter-container')) {
-        const newsletter = new NewsletterManager();
-    }
 });
