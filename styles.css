@@ -184,10 +184,8 @@
             text-decoration: none;
         }
 .newsletter-form-container {
-       max-width: 800px;
        margin-left: 0;
        max-width: 800px;
-       margin: 0;
 }
 
 .newsletter-form-input {
