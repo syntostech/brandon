@@ -15,7 +15,7 @@ const AUDIO_PLAYLIST = [
     {
         title: "To be loved ft. AURORA",
         artist: "Askjell",
-        audioUrl: "https://www.syntos.xyz/cdn/songs/loved.mp3",
+        audioUrl: "https://www.syntos.xyz/cdn/songs/looved.mp3",
         link: "https://www.youtube.com/watch?v=h2bjTFdezG8"
     },
 ];
