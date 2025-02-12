@@ -21,6 +21,6 @@ const AUDIO_PLAYLIST = [
         audioUrl: "https://www.syntos.xyz/cdn/songs/looved.mp3",
         link: "https://www.youtube.com/watch?v=h2bjTFdezG8",
         copyright: true,
-        startTime: 70.8 
+        startTime: 98 
 },
 ];
