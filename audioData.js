@@ -1,3 +1,4 @@
+// audioData.js - Audio playlist data
 const AUDIO_PLAYLIST = [
     {
         title: "Mr.Tambourine (AURORA Cover)",
@@ -11,13 +12,15 @@ const AUDIO_PLAYLIST = [
         artist: "Stephen",
         audioUrl: "https://www.syntos.xyz/cdn/songs/crossfire.mp3",
         link: "https://www.youtube.com/watch?v=M42EoG1QPnU",
-        copyright: true
+        copyright: true,
+        startTime: 205
     },
     {
         title: "To be loved ft. AURORA",
         artist: "Askjell",
         audioUrl: "https://www.syntos.xyz/cdn/songs/looved.mp3",
         link: "https://www.youtube.com/watch?v=h2bjTFdezG8",
-        copyright: true
-    },
+        copyright: true,
+        startTime: 70.8 
+},
 ];
