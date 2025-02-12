@@ -3,7 +3,6 @@ class AudioPlayerController {
         this.currentTrackIndex = 0;
         this.isPlaying = false;
         this.playlist = AUDIO_PLAYLIST;
-        this.previewTimer = null;
         this.initializePlayer();
         this.initializeEventListeners();
         this.loadTrack(this.currentTrackIndex);
@@ -33,22 +32,24 @@ class AudioPlayerController {
         
         this.audio.addEventListener('timeupdate', () => {
             this.updateProgress();
-            // Check if current time exceeds 30 seconds for copyrighted songs
-            if (this.playlist[this.currentTrackIndex].copyright && 
-                this.audio.currentTime >= 30) {
-                this.audio.pause();
-                this.isPlaying = false;
-                this.playIcon.classList.remove('hidden');
-                this.pauseIcon.classList.add('hidden');
+            const track = this.playlist[this.currentTrackIndex];
+            if (track.copyright) {
+                // Check if we've played 30 seconds from the start time
+                const playedTime = this.audio.currentTime - (track.startTime || 0);
+                if (playedTime >= 30) {
+                    this.audio.pause();
+                    this.isPlaying = false;
+                    this.playIcon.classList.remove('hidden');
+                    this.pauseIcon.classList.add('hidden');
+                }
             }
         });
         
         this.audio.addEventListener('ended', () => this.nextTrack());
         this.audio.addEventListener('loadedmetadata', () => {
             const track = this.playlist[this.currentTrackIndex];
-            // Set duration display to 30s for copyrighted songs
             if (track.copyright) {
-                this.durationEl.textContent = '0:30';
+                this.durationEl.textContent = this.formatTime((track.startTime || 0) + 30);
             } else {
                 this.durationEl.textContent = this.formatTime(this.audio.duration);
             }
@@ -58,12 +59,18 @@ class AudioPlayerController {
         progressContainer.addEventListener('click', (e) => {
             const track = this.playlist[this.currentTrackIndex];
             const clickPosition = e.offsetX / progressContainer.offsetWidth;
-            let newTime = clickPosition * this.audio.duration;
+            let newTime;
             
-            // Prevent seeking beyond 30s for copyrighted songs
-            if (track.copyright && newTime > 30) {
-                newTime = 30;
+            if (track.copyright) {
+                // For copyrighted songs, limit seeking within the 30-second window
+                const startTime = track.startTime || 0;
+                const maxTime = startTime + 30;
+                newTime = startTime + (clickPosition * 30);
+                if (newTime > maxTime) newTime = maxTime;
+            } else {
+                newTime = clickPosition * this.audio.duration;
             }
+            
             this.audio.currentTime = newTime;
         });
     }
@@ -75,7 +82,15 @@ class AudioPlayerController {
         this.songLink.href = track.link;
         this.audio.src = track.audioUrl;
         this.progressBar.style.width = '0%';
-        this.currentTimeEl.textContent = '0:00';
+        this.currentTimeEl.textContent = track.copyright ? 
+            this.formatTime(track.startTime || 0) : '0:00';
+        
+        // Set initial time for copyrighted songs
+        this.audio.addEventListener('loadedmetadata', () => {
+            if (track.copyright && track.startTime) {
+                this.audio.currentTime = track.startTime;
+            }
+        }, { once: true });
         
         if (this.isPlaying) {
             this.audio.play().catch(error => console.log('Playback failed:', error));
@@ -111,8 +126,11 @@ class AudioPlayerController {
             let percent;
             
             if (track.copyright) {
-                // For copyrighted songs, calculate progress based on 30 seconds
-                percent = (this.audio.currentTime / 30) * 100;
+                // For copyrighted songs, calculate progress based on 30 seconds window
+                const startTime = track.startTime || 0;
+                const currentPosition = this.audio.currentTime - startTime;
+                percent = (currentPosition / 30) * 100;
+                if (percent < 0) percent = 0;
                 if (percent > 100) percent = 100;
             } else {
                 // For non-copyrighted songs, use full duration
