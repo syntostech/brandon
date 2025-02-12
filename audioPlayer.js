@@ -1,9 +1,9 @@
-// audioPlayer.js - Audio player component
 class AudioPlayerController {
     constructor() {
         this.currentTrackIndex = 0;
         this.isPlaying = false;
-        this.playlist = AUDIO_PLAYLIST; // From audioData.js
+        this.playlist = AUDIO_PLAYLIST;
+        this.previewTimer = null;
         this.initializePlayer();
         this.initializeEventListeners();
         this.loadTrack(this.currentTrackIndex);
@@ -31,16 +31,40 @@ class AudioPlayerController {
         this.previousBtn.addEventListener('click', () => this.previousTrack());
         this.nextBtn.addEventListener('click', () => this.nextTrack());
         
-        this.audio.addEventListener('timeupdate', () => this.updateProgress());
+        this.audio.addEventListener('timeupdate', () => {
+            this.updateProgress();
+            // Check if current time exceeds 30 seconds for copyrighted songs
+            if (this.playlist[this.currentTrackIndex].copyright && 
+                this.audio.currentTime >= 30) {
+                this.audio.pause();
+                this.isPlaying = false;
+                this.playIcon.classList.remove('hidden');
+                this.pauseIcon.classList.add('hidden');
+            }
+        });
+        
         this.audio.addEventListener('ended', () => this.nextTrack());
         this.audio.addEventListener('loadedmetadata', () => {
-            this.durationEl.textContent = this.formatTime(this.audio.duration);
+            const track = this.playlist[this.currentTrackIndex];
+            // Set duration display to 30s for copyrighted songs
+            if (track.copyright) {
+                this.durationEl.textContent = '0:30';
+            } else {
+                this.durationEl.textContent = this.formatTime(this.audio.duration);
+            }
         });
         
         const progressContainer = this.player.querySelector('.progress-bar');
         progressContainer.addEventListener('click', (e) => {
+            const track = this.playlist[this.currentTrackIndex];
             const clickPosition = e.offsetX / progressContainer.offsetWidth;
-            this.audio.currentTime = clickPosition * this.audio.duration;
+            let newTime = clickPosition * this.audio.duration;
+            
+            // Prevent seeking beyond 30s for copyrighted songs
+            if (track.copyright && newTime > 30) {
+                newTime = 30;
+            }
+            this.audio.currentTime = newTime;
         });
     }
 
@@ -83,7 +107,18 @@ class AudioPlayerController {
 
     updateProgress() {
         if (this.audio.duration) {
-            const percent = (this.audio.currentTime / this.audio.duration) * 100;
+            const track = this.playlist[this.currentTrackIndex];
+            let percent;
+            
+            if (track.copyright) {
+                // For copyrighted songs, calculate progress based on 30 seconds
+                percent = (this.audio.currentTime / 30) * 100;
+                if (percent > 100) percent = 100;
+            } else {
+                // For non-copyrighted songs, use full duration
+                percent = (this.audio.currentTime / this.audio.duration) * 100;
+            }
+            
             this.progressBar.style.width = `${percent}%`;
             this.currentTimeEl.textContent = this.formatTime(this.audio.currentTime);
         }
