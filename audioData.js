@@ -12,7 +12,6 @@ const AUDIO_PLAYLIST = [
         audioUrl: "https://www.syntos.xyz/cdn/songs/crossfire.mp3",
         link: "https://www.youtube.com/watch?v=M42EoG1QPnU",
         copyright: true
-        previewDuration: 30
     },
     {
         title: "To be loved ft. AURORA",
@@ -20,6 +19,5 @@ const AUDIO_PLAYLIST = [
         audioUrl: "https://www.syntos.xyz/cdn/songs/looved.mp3",
         link: "https://www.youtube.com/watch?v=h2bjTFdezG8",
         copyright: true
-        previewDuration: 30
     },
 ];
