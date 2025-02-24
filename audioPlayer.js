@@ -133,8 +133,22 @@ class AudioPlayerController {
 
     // Display static lyrics as fallback
     setStaticLyrics() {
-        // Create a simplified version of srtData from the static lyrics
-        const lyrics = `¡Oye! Señor del Tamborín, toca una canción para mí...`; // Your original static lyrics
+        const lyrics = `¡Oye! Señor del Tamborín, toca una canción para mí
+No tengo sueño y no hay ningún lugar al que vaya
+
+¡Oye! Señor del Tamborín, toca una canción para mí
+en el tintineo de la mañana vendré siguiéndote
+
+Aunque sé que el imperio
+del atardecer ha vuelto a ser arena
+Se ha desvanecido entre mis manos,
+Me dejó aquí ciego de pie,
+pero aún sin dormir
+oh mi cansancio me sorprende
+estoy plantado en mis zapatos
+No tengo a nadie con quien encontrarme
+en estas antiguas calles vacías
+demasiadas muertas para soñar`;
         
         // Split lyrics into lines
         const lines = lyrics.split('\n').filter(line => line.trim() !== '');
@@ -143,7 +157,7 @@ class AudioPlayerController {
             // Create a timing of about 4 seconds per line
             return {
                 startTime: index * 4,
-                endTime: (index + 1) * 4,
+                endTime: (index + 1) * 4 - 0.1, // Subtract a small amount to prevent overlap
                 text: line
             };
         });
@@ -155,12 +169,14 @@ class AudioPlayerController {
 
     // Update the active lyrics based on current playback time
     updateActiveLyrics() {
-        if (!this.srtData || !this.lyricsContent || this.lyricsContainer.classList.contains('hidden')) {
+        if (!this.srtData || !this.lyricsContent) {
             return;
         }
+        
         const currentTime = this.audio.currentTime;
         let foundActive = false;
         let newLyricIndex = -1;
+        
         for (let i = 0; i < this.srtData.length; i++) {
             const line = this.srtData[i];
             if (currentTime >= line.startTime && currentTime <= line.endTime) {
@@ -169,6 +185,14 @@ class AudioPlayerController {
                 break;
             }
         }
+        
+        // Show or hide the lyrics container based on whether there's active lyrics
+        if (foundActive) {
+            this.lyricsContainer.classList.remove('hidden');
+        } else {
+            this.lyricsContainer.classList.add('hidden');
+        }
+        
         // Only update if the lyric has changed
         if (newLyricIndex !== this.activeLyricIndex) {
             this.activeLyricIndex = newLyricIndex;
@@ -178,14 +202,16 @@ class AudioPlayerController {
 
     // Render the current lyric in the bubble
     renderLyrics() {
+        // If no active lyrics, hide the container
         if (!this.srtData || this.activeLyricIndex === -1) {
             this.lyricsContent.textContent = "";
+            this.lyricsContainer.classList.add('hidden');
             return;
         }
         
         const currentLyric = this.srtData[this.activeLyricIndex];
         
-        // Create a new bubble effect by removing and adding a class
+        // Create a new bubble effect by removing and adding animation
         const lyricsBubble = this.lyricsContainer.querySelector('.lyrics-bubble');
         lyricsBubble.style.animation = 'none';
         // Trigger reflow
@@ -194,6 +220,9 @@ class AudioPlayerController {
         
         // Update the content
         this.lyricsContent.textContent = currentLyric.text;
+        
+        // Ensure the container is visible
+        this.lyricsContainer.classList.remove('hidden');
     }
 
     loadTrack(index) {
@@ -209,11 +238,10 @@ class AudioPlayerController {
         // Reset lyrics state
         this.activeLyricIndex = -1;
         this.srtData = null;
+        this.lyricsContainer.classList.add('hidden');
         
-        // Show or hide lyrics based on the current track
-        if (track.title.includes("Tambourine")) {
-            this.lyricsContainer.classList.remove('hidden');
-            
+        // Only load lyrics for tracks that should have them
+        if (track.title.includes("Tambourine") || track.lyricsUrl) {
             // If the track has an SRT URL defined, fetch it
             if (track.lyricsUrl) {
                 this.fetchLyrics(track.lyricsUrl)
@@ -225,8 +253,6 @@ class AudioPlayerController {
                 // Fall back to static lyrics
                 this.setStaticLyrics();
             }
-        } else {
-            this.lyricsContainer.classList.add('hidden');
         }
         
         this.audio.addEventListener('loadedmetadata', () => {
