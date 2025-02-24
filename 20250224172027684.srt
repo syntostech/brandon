@@ -88,86 +88,90 @@ esperando solo a las suelas de mis botas, para empezar a divagar.
 oh estoy listo para ir a cualquier parte
 
 23
-00:02:03,843 --> 00:02:09,790
-Estoy listo para ir a cualquier parte, listo para desvanecerme
+00:02:03,843 --> 00:02:07,152
+listo para desvanecerme
 
 24
+00:02:07,152 --> 00:02:09,790
+en mi propio desfile,
+
+25
 00:02:09,790 --> 00:02:15,910
 lanza tu hechizo danzante hacia mí
 prometo dejarme llevar por él  
 
-25
+26
 00:02:17,042 --> 00:02:23,011
 ¡Oye! Señor del Tamborín, toca una canción para mí
 
-26
+27
 00:02:23,011 --> 00:02:29,137
 No tengo sueño y no hay lugar al que vaya
 
-27
+28
 00:02:30,306 --> 00:02:36,386
 ¡Oye! Señor del Tamborín, toca una canción para mí
 
-28
+29
 00:02:36,386 --> 00:02:43,793
 en el tintineo de la mañana vendré siguiéndote
 
-29
+30
 00:02:48,435 --> 00:02:52,355
 Aunque puedas oír la risa, girando,
 
-30
+31
 00:02:52,355 --> 00:02:55,704
 balanceándose locamente a través del sol,
 
-31
+32
 00:02:55,846 --> 00:02:58,842
 no está dirigido a nadie
 
-32
+33
 00:02:59,346 --> 00:03:02,864
 simplemente escapa a la carrera
 
-33
+34
 00:03:03,040 --> 00:03:05,732
 Y salvo por el cielo,
 
-34
+35
 00:03:05,732 --> 00:03:08,943
 no hay ningún cercado a la vista.
 
-35
+36
 00:03:10,153 --> 00:03:16,633
 Y si escuchas rastros vagos de rimas saltarinas
 
-36
+37
 00:03:16,633 --> 00:03:19,920
 Al ritmo de tu tamborín,
 
-37
+38
 00:03:19,920 --> 00:03:23,197
 no es más que un harapiento payaso ahí detrás,
 
-38
+39
 00:03:23,197 --> 00:03:29,182
 no es más que una sombra lo que ves que él persigue
 
-39
+40
 00:03:30,556 --> 00:03:36,677
 ¡Oye! Señor del Tamborín, toca una canción para mí
 
-40
+41
 00:03:36,677 --> 00:03:42,703
 No tengo sueño y no hay lugar al que vaya
 
-41
+42
 00:03:43,922 --> 00:03:50,082
 ¡Oye! Señor del Tamborín, toca una canción para mí
 
-42
+43
 00:03:50,082 --> 00:03:57,617
 en el tintineo de la mañana vendré siguiéndote
 
-43
+44
 00:03:58,640 --> 00:04:09,140
 en el tintineo de la mañana vendré siguiéndote
