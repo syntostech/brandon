@@ -250,7 +250,6 @@
 .hidden {
     display: none;
 }
-
 .lyrics-container {
     margin-bottom: 2.5rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -261,6 +260,8 @@
     opacity: 0;
     animation: fadeInUp 0.6s ease forwards;
     transition: transform 0.3s ease, border-color 0.3s ease;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .lyrics-container:hover {
@@ -273,6 +274,35 @@
     font-size: 0.9em;
     line-height: 1.8;
     white-space: pre-line;
+}
+
+.lyric-line {
+    padding: 4px 0;
+    transition: color 0.3s ease, font-weight 0.3s ease;
+}
+
+.lyric-line.active {
+    color: white;
+    font-weight: 500;
+}
+
+/* Custom scrollbar for the lyrics container */
+.lyrics-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.lyrics-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+
+.lyrics-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.lyrics-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
 }
 
  @media (max-width: 600px) {
