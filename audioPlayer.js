@@ -226,4 +226,75 @@ class AudioPlayerController {
         
         this.audio.addEventListener('loadedmetadata', () => {
             if (track.copyright && track.startTime) {
-                this.audio.currentTime =
+                this.audio.currentTime = track.startTime;
+            }
+            
+            if (this.isPlaying) {
+                this.playIcon.classList.add('hidden');
+                this.pauseIcon.classList.remove('hidden');
+            } else {
+                this.playIcon.classList.remove('hidden');
+                this.pauseIcon.classList.add('hidden');
+            }
+        }, { once: true });
+        
+        if (this.isPlaying) {
+            this.audio.play().catch(error => console.log('Playback failed:', error));
+        }
+    }
+
+    togglePlayPause() {
+        console.log('Toggling play/pause, new state:', !this.isPlaying);
+        this.isPlaying = !this.isPlaying;
+        if (this.isPlaying) {
+            this.playIcon.classList.add('hidden');
+            this.pauseIcon.classList.remove('hidden');
+            this.audio.play().catch(error => console.log('Playback failed:', error));
+        } else {
+            this.playIcon.classList.remove('hidden');
+            this.pauseIcon.classList.add('hidden');
+            this.audio.pause();
+            // Explicitly hide the lyrics bubble when paused
+            this.lyricsContainer.classList.add('hidden');
+        }
+    }
+
+    previousTrack() {
+        this.currentTrackIndex = (this.currentTrackIndex - 1 + this.playlist.length) % this.playlist.length;
+        this.loadTrack(this.currentTrackIndex);
+    }
+
+    nextTrack() {
+        this.currentTrackIndex = (this.currentTrackIndex + 1) % this.playlist.length;
+        this.loadTrack(this.currentTrackIndex);
+        if (this.isPlaying) {
+            this.audio.play().catch(error => console.log('Playback failed:', error));
+        }
+    }
+
+    updateProgress() {
+        if (this.audio.duration) {
+            const track = this.playlist[this.currentTrackIndex];
+            let percent;
+            
+            if (track.copyright) {
+                const startTime = track.startTime || 0;
+                const currentPosition = this.audio.currentTime - startTime;
+                percent = (currentPosition / 30) * 100;
+                if (percent < 0) percent = 0;
+                if (percent > 100) percent = 100;
+            } else {
+                percent = (this.audio.currentTime / this.audio.duration) * 100;
+            }
+            
+            this.progressBar.style.width = `${percent}%`;
+            this.currentTimeEl.textContent = this.formatTime(this.audio.currentTime);
+        }
+    }
+
+    formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = Math.floor(seconds % 60);
+        return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+    }
+}
