@@ -169,7 +169,8 @@ demasiadas muertas para soñar`;
 
     // Update the active lyrics based on current playback time
     updateActiveLyrics() {
-        if (!this.srtData || !this.lyricsContent) {
+        if (!this.srtData || !this.lyricsContent || !this.isPlaying) {
+            this.lyricsContainer.classList.add('hidden');
             return;
         }
         
@@ -186,8 +187,8 @@ demasiadas muertas para soñar`;
             }
         }
         
-        // Show or hide the lyrics container based on whether there's active lyrics
-        if (foundActive) {
+        // Show or hide the lyrics container based on whether there's active lyrics and music is playing
+        if (foundActive && this.isPlaying) {
             this.lyricsContainer.classList.remove('hidden');
         } else {
             this.lyricsContainer.classList.add('hidden');
@@ -203,7 +204,7 @@ demasiadas muertas para soñar`;
     // Render the current lyric in the bubble
     renderLyrics() {
         // If no active lyrics, hide the container
-        if (!this.srtData || this.activeLyricIndex === -1) {
+        if (!this.srtData || this.activeLyricIndex === -1 || !this.isPlaying) {
             this.lyricsContent.textContent = "";
             this.lyricsContainer.classList.add('hidden');
             return;
@@ -284,6 +285,8 @@ demasiadas muertas para soñar`;
             this.playIcon.classList.remove('hidden');
             this.pauseIcon.classList.add('hidden');
             this.audio.pause();
+            // Hide lyrics bubble when paused
+            this.lyricsContainer.classList.add('hidden');
         }
     }
 
