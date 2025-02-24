@@ -133,68 +133,24 @@ class AudioPlayerController {
 
     // Display static lyrics as fallback
     setStaticLyrics() {
-        this.lyrics = `¡Oye! Señor del Tamborín, toca una canción para mí
-No tengo sueño y no hay ningún lugar al que vaya
-
-¡Oye! Señor del Tamborín, toca una canción para mí
-en el tintineo de la mañana vendré siguiéndote
-
-Aunque sé que el imperio
-del atardecer ha vuelto a ser arena
-Se ha desvanecido entre mis manos,
-Me dejó aquí ciego de pie,
-pero aún sin dormir
-oh mi cansancio me sorprende
-estoy plantado en mis zapatos
-No tengo a nadie con quien encontrarme
-en estas antiguas calles vacías
-demasiadas muertas para soñar
-
-¡Oye! Señor del Tamborín, toca una canción para mí
-No tengo sueño y no hay lugar al que vaya
-
-¡Oye! Señor del Tamborín, toca una canción para mí
-en el tintineo de la mañana vendré siguiéndote
-
-Llévame en un viaje en tu mágico barco giratorio
-Mis sentidos han sido despojados,
-Mis dedos están demasiado entumecidos para dar un paso
-esperando solo a las suelas de mis botas, para empezar a divagar.
-
-oh estoy listo para ir a cualquier parte
-Estoy listo para ir a cualquier parte, listo para desvanecerme
-lanza tu hechizo danzante hacia mí
-prometo dejarme llevar por él  
-
-¡Oye! Señor del Tamborín, toca una canción para mí
-No tengo sueño y no hay lugar al que vaya
-
-¡Oye! Señor del Tamborín, toca una canción para mí
-en el tintineo de la mañana vendré siguiéndote
-
-Aunque puedas oír la risa, girando,
-balanceándose locamente a través del sol,
-no está dirigido a nadie
-simplemente escapa a la carrera
-Y salvo por el cielo,
-no hay ningún cercado a la vista.
-
-Y si escuchas rastros vagos de rimas saltarinas
-Al ritmo de tu tamborín,
-no es más que un harapiento payaso ahí detrás,
-no es más que una sombra lo que ves que él persigue
-
-¡Oye! Señor del Tamborín, toca una canción para mí
-No tengo sueño y no hay lugar al que vaya
-
-¡Oye! Señor del Tamborín, toca una canción para mí
-en el tintineo de la mañana vendré siguiéndote
-
-en el tintineo de la mañana vendré siguiéndote`;
-
-        if (this.lyricsContent) {
-            this.lyricsContent.textContent = this.lyrics;
-        }
+        // Create a simplified version of srtData from the static lyrics
+        const lyrics = `¡Oye! Señor del Tamborín, toca una canción para mí...`; // Your original static lyrics
+        
+        // Split lyrics into lines
+        const lines = lyrics.split('\n').filter(line => line.trim() !== '');
+        
+        this.srtData = lines.map((line, index) => {
+            // Create a timing of about 4 seconds per line
+            return {
+                startTime: index * 4,
+                endTime: (index + 1) * 4,
+                text: line
+            };
+        });
+        
+        // Set initial active line
+        this.activeLyricIndex = 0;
+        this.renderLyrics();
     }
 
     // Update the active lyrics based on current playback time
@@ -202,53 +158,42 @@ en el tintineo de la mañana vendré siguiéndote`;
         if (!this.srtData || !this.lyricsContent || this.lyricsContainer.classList.contains('hidden')) {
             return;
         }
-
         const currentTime = this.audio.currentTime;
         let foundActive = false;
-
+        let newLyricIndex = -1;
         for (let i = 0; i < this.srtData.length; i++) {
             const line = this.srtData[i];
             if (currentTime >= line.startTime && currentTime <= line.endTime) {
-                if (this.activeLyricIndex !== i) {
-                    this.activeLyricIndex = i;
-                    this.renderLyrics();
-                }
+                newLyricIndex = i;
                 foundActive = true;
                 break;
             }
         }
-
-        // If no active lyrics found and we had one before, clear the active state
-        if (!foundActive && this.activeLyricIndex !== -1) {
-            this.activeLyricIndex = -1;
+        // Only update if the lyric has changed
+        if (newLyricIndex !== this.activeLyricIndex) {
+            this.activeLyricIndex = newLyricIndex;
             this.renderLyrics();
         }
     }
 
-    // Render the lyrics with the active line highlighted
+    // Render the current lyric in the bubble
     renderLyrics() {
-        if (!this.srtData || this.srtData.length === 0) {
+        if (!this.srtData || this.activeLyricIndex === -1) {
+            this.lyricsContent.textContent = "";
             return;
         }
-
-        this.lyricsContent.innerHTML = '';
         
-        // Create a simple display with all lyrics, highlighting the active one
-        const lyricsDiv = document.createElement('div');
+        const currentLyric = this.srtData[this.activeLyricIndex];
         
-        this.srtData.forEach((line, index) => {
-            const lineElement = document.createElement('div');
-            lineElement.textContent = line.text;
-            lineElement.className = 'lyric-line';
-            
-            if (index === this.activeLyricIndex) {
-                lineElement.classList.add('active');
-            }
-            
-            lyricsDiv.appendChild(lineElement);
-        });
+        // Create a new bubble effect by removing and adding a class
+        const lyricsBubble = this.lyricsContainer.querySelector('.lyrics-bubble');
+        lyricsBubble.style.animation = 'none';
+        // Trigger reflow
+        void lyricsBubble.offsetWidth;
+        lyricsBubble.style.animation = 'bubble-fade 0.3s ease-in-out';
         
-        this.lyricsContent.appendChild(lyricsDiv);
+        // Update the content
+        this.lyricsContent.textContent = currentLyric.text;
     }
 
     loadTrack(index) {
