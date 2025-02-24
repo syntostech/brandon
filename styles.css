@@ -149,106 +149,7 @@
             text-decoration: none;
         }
 
-.telegram-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 1rem;
-}
 
-.telegram-content h3 {
-    font-size: 1.2em;
-    font-weight: 500;
-}
-
-.telegram-content p {
-    color: #a3a3a3;
-    line-height: 1.5;
-}
-
-.telegram-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background-color: #0088cc;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.telegram-button:hover {
-    background-color: #00a2ff;
-    text-decoration: none;
-}
-
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.newsletter-messages {
-    margin-top: 1.5rem;
-}
-
-.newsletter-success,
-.newsletter-error {
-    display: none;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem;
-    border-radius: 12px;
-    margin-bottom: 1rem;
-}
-
-.newsletter-success {
-    background: rgba(34,197,94,0.1);
-    border: 1px solid rgba(34,197,94,0.2);
-}
-
-.newsletter-error {
-    background: rgba(239,68,68,0.1);
-    border: 1px solid rgba(239,68,68,0.2);
-}
-
-.success-icon,
-.error-icon {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-}
-
-.success-icon {
-    background: rgba(34,197,94,0.2);
-    color: rgb(34,197,94);
-}
-
-.error-icon {
-    background: rgba(239,68,68,0.2);
-    color: rgb(239,68,68);
-}
-
-.newsletter-back {
-    display: none;
-    background: transparent;
-    border: none;
-    color: #a3a3a3;
-    font-family: 'Roboto Mono', monospace;
-    cursor: pointer;
-    margin-top: 1rem;
-    transition: color 0.3s ease;
-}
-
-.newsletter-back:hover {
-    color: white;
-}
 
 .music-player {
        background: rgba(255, 255, 255, 0.05);
@@ -350,42 +251,41 @@
     display: none;
 }
 
-@media (max-width: 600px) {
-    .music-player {
-        padding: 1rem;
-    }
-    
-    .controls {
-        gap: 1rem;
-    }
+.lyrics-container {
+    margin-bottom: 2.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+    transform: translateY(20px);
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+    transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
-@media (max-width: 600px) {
-    .newsletter-container {
-        padding: 1.5rem;
-        margin: 2rem 0;
-    }
-    
-    .newsletter-title {
-        font-size: 1.5rem;
-    }
-    
-    .newsletter-description {
-        font-size: 1rem;
-    }
+.lyrics-container:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
-        @media (max-width: 600px) {
-            body {
+.lyrics-content {
+    color: #a3a3a3;
+    font-size: 0.9em;
+    line-height: 1.8;
+    white-space: pre-line;
+}
+
+ @media (max-width: 600px) {
+       body {
                 padding: 15px;
             }
             
-            header img {
+       header img {
                 width: 120px;
                 height: 120px;
             }
             
-            header p {
+       header p {
                 font-size: 20px;
             }
             
@@ -396,4 +296,12 @@
             .card {
                 padding: 1rem;
             }
+       
+       .music-player {
+        padding: 1rem;
+    }
+    
+       .controls {
+        gap: 1rem;
+    }
         }
