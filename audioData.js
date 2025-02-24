@@ -6,7 +6,7 @@ const AUDIO_PLAYLIST = [
         audioUrl: "https://www.syntos.xyz/cdn/songs/tambourine.mp3",
         link: "https://www.youtube.com/watch?v=JvygwqECh4g",
         copyright: false,
-        lyricsUrl: "/20250224172027684.srt" // Add your SRT file URL here
+        lyricsUrl: "/20250224172027684.srt"
     },
     {
         title: "Crossfire",
