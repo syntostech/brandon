@@ -248,7 +248,7 @@
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .lyrics-container {
