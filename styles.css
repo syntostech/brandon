@@ -277,7 +277,7 @@
 }
 
 .lyrics-bubble {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: white;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     padding: 12px 20px;
@@ -301,7 +301,7 @@
 }
 
 .lyrics-content {
-    color: white;
+    color: black;
     font-size: 1em;
     line-height: 1.5;
     font-weight: 500;
