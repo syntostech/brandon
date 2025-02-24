@@ -91,8 +91,9 @@ class AudioPlayerController {
             })
             .catch(error => {
                 console.error('Error fetching lyrics:', error);
-                // Fall back to static lyrics if SRT fetch fails
-                this.setStaticLyrics();
+                // No fallback lyrics—just hide the bubble
+                this.srtData = null;
+                this.lyricsContainer.classList.add('hidden');
             });
     }
 
@@ -131,45 +132,11 @@ class AudioPlayerController {
         return hours * 3600 + minutes * 60 + seconds + parseInt(milliseconds) / 1000;
     }
 
-    // Display static lyrics as fallback
-    setStaticLyrics() {
-        const lyrics = `¡Oye! Señor del Tamborín, toca una canción para mí
-No tengo sueño y no hay ningún lugar al que vaya
-
-¡Oye! Señor del Tamborín, toca una canción para mí
-en el tintineo de la mañana vendré siguiéndote
-
-Aunque sé que el imperio
-del atardecer ha vuelto a ser arena
-Se ha desvanecido entre mis manos,
-Me dejó aquí ciego de pie,
-pero aún sin dormir
-oh mi cansancio me sorprende
-estoy plantado en mis zapatos
-No tengo a nadie con quien encontrarme
-en estas antiguas calles vacías
-demasiadas muertas para soñar`;
-        
-        // Split lyrics into lines
-        const lines = lyrics.split('\n').filter(line => line.trim() !== '');
-        
-        this.srtData = lines.map((line, index) => {
-            // Create a timing of about 4 seconds per line
-            return {
-                startTime: index * 4,
-                endTime: (index + 1) * 4 - 0.1, // Subtract a small amount to prevent overlap
-                text: line
-            };
-        });
-        
-        // Set initial active line
-        this.activeLyricIndex = 0;
-        this.renderLyrics();
-    }
-
     // Update the active lyrics based on current playback time
     updateActiveLyrics() {
+        console.log('Updating lyrics, isPlaying:', this.isPlaying, 'srtData exists:', !!this.srtData);
         if (!this.srtData || !this.lyricsContent || !this.isPlaying) {
+            console.log('Hiding lyrics container');
             this.lyricsContainer.classList.add('hidden');
             return;
         }
@@ -189,8 +156,10 @@ demasiadas muertas para soñar`;
         
         // Show or hide the lyrics container based on whether there's active lyrics and music is playing
         if (foundActive && this.isPlaying) {
+            console.log('Showing lyrics container for active lyrics');
             this.lyricsContainer.classList.remove('hidden');
         } else {
+            console.log('Hiding lyrics container (no active lyrics or not playing)');
             this.lyricsContainer.classList.add('hidden');
         }
         
@@ -203,8 +172,10 @@ demasiadas muertas para soñar`;
 
     // Render the current lyric in the bubble
     renderLyrics() {
-        // If no active lyrics, hide the container
+        console.log('Rendering lyrics, isPlaying:', this.isPlaying, 'activeLyricIndex:', this.activeLyricIndex);
+        // If no active lyrics or audio isn't playing, hide the container
         if (!this.srtData || this.activeLyricIndex === -1 || !this.isPlaying) {
+            console.log('No lyrics to render or not playing, hiding container');
             this.lyricsContent.textContent = "";
             this.lyricsContainer.classList.add('hidden');
             return;
@@ -223,10 +194,12 @@ demasiadas muertas para soñar`;
         this.lyricsContent.textContent = currentLyric.text;
         
         // Ensure the container is visible
+        console.log('Rendering lyric:', currentLyric.text);
         this.lyricsContainer.classList.remove('hidden');
     }
 
     loadTrack(index) {
+        console.log('Loading track, index:', index, 'isPlaying:', this.isPlaying);
         const track = this.playlist[index];
         this.trackName.textContent = track.title;
         this.artistName.textContent = track.artist;
@@ -236,96 +209,21 @@ demasiadas muertas para soñar`;
         this.currentTimeEl.textContent = track.copyright ? 
             this.formatTime(track.startTime || 0) : '0:00';
         
-        // Reset lyrics state
+        // Reset lyrics state and hide the lyrics bubble
+        this.isPlaying = false; // Ensure this starts as false
         this.activeLyricIndex = -1;
         this.srtData = null;
         this.lyricsContainer.classList.add('hidden');
         
-        // Only load lyrics for tracks that should have them
-        if (track.title.includes("Tambourine") || track.lyricsUrl) {
-            // If the track has an SRT URL defined, fetch it
-            if (track.lyricsUrl) {
-                this.fetchLyrics(track.lyricsUrl)
-                    .then(() => {
-                        // Initially render all lyrics
-                        this.renderLyrics();
-                    });
-            } else {
-                // Fall back to static lyrics
-                this.setStaticLyrics();
-            }
+        // Only load lyrics for tracks that have an SRT URL (no fallback lyrics)
+        if (track.lyricsUrl) {
+            this.fetchLyrics(track.lyricsUrl)
+                .then(() => {
+                    // Initially render all lyrics
+                    this.renderLyrics();
+                });
         }
         
         this.audio.addEventListener('loadedmetadata', () => {
             if (track.copyright && track.startTime) {
-                this.audio.currentTime = track.startTime;
-            }
-            
-            if (this.isPlaying) {
-                this.playIcon.classList.add('hidden');
-                this.pauseIcon.classList.remove('hidden');
-            } else {
-                this.playIcon.classList.remove('hidden');
-                this.pauseIcon.classList.add('hidden');
-            }
-        }, { once: true });
-        
-        if (this.isPlaying) {
-            this.audio.play().catch(error => console.log('Playback failed:', error));
-        }
-    }
-
-    togglePlayPause() {
-        this.isPlaying = !this.isPlaying;
-        if (this.isPlaying) {
-            this.playIcon.classList.add('hidden');
-            this.pauseIcon.classList.remove('hidden');
-            this.audio.play().catch(error => console.log('Playback failed:', error));
-        } else {
-            this.playIcon.classList.remove('hidden');
-            this.pauseIcon.classList.add('hidden');
-            this.audio.pause();
-            // Hide lyrics bubble when paused
-            this.lyricsContainer.classList.add('hidden');
-        }
-    }
-
-    previousTrack() {
-        this.currentTrackIndex = (this.currentTrackIndex - 1 + this.playlist.length) % this.playlist.length;
-        this.loadTrack(this.currentTrackIndex);
-    }
-
-    nextTrack() {
-        this.currentTrackIndex = (this.currentTrackIndex + 1) % this.playlist.length;
-        this.loadTrack(this.currentTrackIndex);
-        if (this.isPlaying) {
-            this.audio.play().catch(error => console.log('Playback failed:', error));
-        }
-    }
-
-    updateProgress() {
-        if (this.audio.duration) {
-            const track = this.playlist[this.currentTrackIndex];
-            let percent;
-            
-            if (track.copyright) {
-                const startTime = track.startTime || 0;
-                const currentPosition = this.audio.currentTime - startTime;
-                percent = (currentPosition / 30) * 100;
-                if (percent < 0) percent = 0;
-                if (percent > 100) percent = 100;
-            } else {
-                percent = (this.audio.currentTime / this.audio.duration) * 100;
-            }
-            
-            this.progressBar.style.width = `${percent}%`;
-            this.currentTimeEl.textContent = this.formatTime(this.audio.currentTime);
-        }
-    }
-
-    formatTime(seconds) {
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = Math.floor(seconds % 60);
-        return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-    }
-}
+                this.audio.currentTime =
