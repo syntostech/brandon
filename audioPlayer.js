@@ -45,17 +45,15 @@ class AudioPlayerController {
         const controls = this.player.querySelector('.controls');
         controls.insertBefore(this.lyricsBtn, this.songLink);
         
-        // Update lyrics container style to make it togglable
-        if (this.lyricsContainer) {
-            this.lyricsContainer.style.position = 'absolute';
-            this.lyricsContainer.style.top = 'auto';
-            this.lyricsContainer.style.bottom = '100%';
-            this.lyricsContainer.style.marginBottom = '10px';
-            this.lyricsContainer.style.pointerEvents = 'auto';
-            this.lyricsContainer.style.transition = 'opacity 0.3s, transform 0.3s';
-            this.lyricsContainer.style.opacity = '0';
-            this.lyricsContainer.style.transform = 'translateY(10px)';
+        // Make sure the lyrics container exists
+        if (!this.lyricsContainer) {
+            console.error('Lyrics container not found in the DOM');
+            return;
         }
+        
+        // Update lyrics container style for dropdown rather than bubble
+        this.lyricsContainer.classList.add('hidden');
+        this.lyricsContainer.style.display = 'none'; // Initially hidden
     }
 
     initializeEventListeners() {
@@ -113,7 +111,7 @@ class AudioPlayerController {
             this.audio.currentTime = newTime;
         });
         
-        // Close lyrics when clicking outside
+        // Close lyrics when clicking outside (modified for dropdown)
         document.addEventListener('click', (e) => {
             if (this.lyricsVisible && 
                 !this.lyricsContainer.contains(e.target) && 
@@ -123,7 +121,7 @@ class AudioPlayerController {
         });
     }
 
-    // Toggle lyrics visibility
+    // Toggle lyrics visibility - modified for dropdown instead of bubble
     toggleLyrics(force) {
         if (typeof force === 'boolean') {
             this.lyricsVisible = force;
@@ -142,28 +140,26 @@ class AudioPlayerController {
             this.lyricsBtn.style.backgroundColor = '';
         }
         
-        // Show or hide lyrics
+        // Show or hide lyrics as dropdown
         if (this.lyricsVisible && this.srtData) {
             this.lyricsContainer.classList.remove('hidden');
-            this.lyricsContainer.style.opacity = '1';
-            this.lyricsContainer.style.transform = 'translateY(0)';
+            this.lyricsContainer.style.display = 'block';
             this.renderAllLyrics();
         } else {
-            this.lyricsContainer.style.opacity = '0';
-            this.lyricsContainer.style.transform = 'translateY(10px)';
-            // Wait for animation to complete before hiding
-            setTimeout(() => {
-                if (!this.lyricsVisible) {
-                    this.lyricsContainer.classList.add('hidden');
-                }
-            }, 300);
+            this.lyricsContainer.classList.add('hidden');
+            this.lyricsContainer.style.display = 'none';
         }
     }
 
     // Method to fetch and parse the SRT file
     fetchLyrics(srtUrl) {
         return fetch(srtUrl)
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.text();
+            })
             .then(srtText => {
                 this.parseSRT(srtText);
                 // Update lyrics toggle button visibility based on whether lyrics exist
@@ -183,6 +179,13 @@ class AudioPlayerController {
 
     // Parse SRT text into timed lyrics
     parseSRT(srtText) {
+        // Make sure we have text to parse
+        if (!srtText || typeof srtText !== 'string' || srtText.trim() === '') {
+            console.error('Invalid SRT text:', srtText);
+            this.srtData = null;
+            return;
+        }
+        
         const srtLines = srtText.trim().split('\n\n');
         this.srtData = [];
         
@@ -207,6 +210,8 @@ class AudioPlayerController {
                 text
             });
         });
+        
+        console.log(`Parsed ${this.srtData.length} lyrics lines`);
     }
 
     // Convert SRT time format to seconds
@@ -218,12 +223,7 @@ class AudioPlayerController {
 
     // Update the active lyrics based on current playback time
     updateActiveLyrics() {
-        if (!this.srtData || !this.lyricsContent) {
-            return;
-        }
-        
-        // If lyrics are manually toggled visible, we don't need to auto-update
-        if (this.lyricsVisible) {
+        if (!this.srtData || !this.lyricsContent || !this.lyricsVisible) {
             return;
         }
         
@@ -258,9 +258,6 @@ class AudioPlayerController {
         // Create a wrapper for scrollable lyrics
         const lyricsWrapper = document.createElement('div');
         lyricsWrapper.className = 'lyrics-wrapper';
-        lyricsWrapper.style.maxHeight = '200px';
-        lyricsWrapper.style.overflowY = 'auto';
-        lyricsWrapper.style.padding = '10px';
         
         // Add each lyric line with timing
         this.srtData.forEach((lyric, index) => {
@@ -268,9 +265,6 @@ class AudioPlayerController {
             lyricLine.textContent = lyric.text;
             lyricLine.dataset.index = index;
             lyricLine.className = 'lyric-line';
-            lyricLine.style.padding = '5px 0';
-            lyricLine.style.cursor = 'pointer';
-            lyricLine.style.transition = 'color 0.2s';
             
             // Add click event to seek to this lyric's time
             lyricLine.addEventListener('click', () => {
