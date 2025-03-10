@@ -259,26 +259,21 @@ body {
     transform: scale(1.1);
 }
 
-/* Lyrics container styles */
+/* Updated Lyrics container styles for dropdown instead of bubble */
 .lyrics-container {
+    width: 100%;
+    max-width: 500px;
     position: absolute;
     bottom: 100%;
     left: 0;
-    width: 100%;
     z-index: 100;
     margin-bottom: 10px;
-    transition: opacity 0.3s, transform 0.3s;
-}
-
-.lyrics-bubble {
     background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 1rem;
     border-radius: 12px;
-    width: 100%;
-    text-align: left;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    padding: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.3s, transform 0.3s;
 }
 
 .lyrics-content {
@@ -291,6 +286,7 @@ body {
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    padding: 10px;
 }
 
 .lyrics-wrapper::-webkit-scrollbar {
