@@ -1,45 +1,5 @@
 // utils.js - Utility functions
 
-// Initialize music player
-function initMusicPlayer() {
-    const musicPlayer = document.querySelector('.music-player');
-    const musicCard = document.querySelector('.music-card');
-    
-    // Set up music player defaults
-    if (musicPlayer) {
-        const audioPlayer = document.getElementById('audio-player');
-        const playPauseBtn = document.querySelector('.play-pause');
-        
-        // Set up play/pause button
-        if (playPauseBtn) {
-            playPauseBtn.addEventListener('click', () => {
-                const playIcon = playPauseBtn.querySelector('.play-icon');
-                const pauseIcon = playPauseBtn.querySelector('.pause-icon');
-                
-                if (playIcon.classList.contains('hidden')) {
-                    // Currently playing, pause it
-                    playIcon.classList.remove('hidden');
-                    pauseIcon.classList.add('hidden');
-                    if (audioPlayer) audioPlayer.pause();
-                } else {
-                    // Currently paused, play it
-                    playIcon.classList.add('hidden');
-                    pauseIcon.classList.remove('hidden');
-                    if (audioPlayer) audioPlayer.play().catch(error => console.log('Playback failed:', error));
-                }
-            });
-        }
-    }
-    
-    // Music card should still toggle player visibility on mobile
-    if (musicCard && window.innerWidth < 768) {
-        musicCard.addEventListener('click', (e) => {
-            e.preventDefault();
-            musicPlayer.classList.toggle('minimized');
-        });
-    }
-}
-
 // Animate social links
 function animateSocialLinks() {
     const socialLinks = document.querySelectorAll('.social-link');
@@ -53,6 +13,8 @@ function animateSocialLinks() {
 // Event listener
 document.addEventListener('DOMContentLoaded', function() {
     initLastLogin();
-    initMusicPlayer();
     animateSocialLinks();
+    
+    // Let AudioPlayerController handle the music player initialization
+    // Don't call initMusicPlayer() from here
 });
