@@ -168,6 +168,7 @@ body {
     animation: fadeInUp 0.5s ease-out 1.2s forwards;
     opacity: 0;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
 }
 
 .now-playing {
@@ -260,29 +261,66 @@ body {
 
 /* Lyrics container styles */
 .lyrics-container {
-    position: fixed;
-    bottom: 2rem;
+    position: absolute;
+    bottom: 100%;
     left: 0;
     width: 100%;
-    display: flex;
-    justify-content: center;
     z-index: 100;
-    pointer-events: none;
+    margin-bottom: 10px;
+    transition: opacity 0.3s, transform 0.3s;
 }
 
 .lyrics-bubble {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.8);
     color: white;
-    padding: 1rem 2rem;
-    border-radius: 50px;
-    max-width: 80%;
-    text-align: center;
-    animation: bubble-fade 0.3s ease-in-out;
+    padding: 1rem;
+    border-radius: 12px;
+    width: 100%;
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .lyrics-content {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     line-height: 1.5;
+}
+
+.lyrics-wrapper {
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+.lyrics-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+
+.lyrics-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.lyrics-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+}
+
+.lyric-line {
+    padding: 5px 0;
+    cursor: pointer;
+    transition: color 0.2s, font-weight 0.2s;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+.lyric-line:hover {
+    color: white;
+}
+
+.lyrics-toggle.active {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Last login display */
@@ -354,6 +392,10 @@ body {
         right: 10px;
         top: 10px;
         font-size: 20px;
+    }
+    
+    .lyrics-wrapper {
+        max-height: 150px;
     }
 }
 
