@@ -1,294 +1,263 @@
-// audioPlayer.js - Audio player controller with lyrics functionality
+// audioPlayer.js - Music player and lyrics functionality
 
-class AudioPlayerController {
-    constructor() {
-        this.currentTrackIndex = 0;
-        this.isPlaying = false;
-        this.playlist = AUDIO_PLAYLIST;
-        this.srtData = null;
-        this.activeLyricIndex = -1;
-        this.lyricsVisible = false;
+document.addEventListener('DOMContentLoaded', function() {
+    // Get DOM elements
+    const audioElement = document.getElementById('audio-player');
+    const playPauseBtn = document.querySelector('.play-pause');
+    const playIcon = document.querySelector('.play-icon');
+    const pauseIcon = document.querySelector('.pause-icon');
+    const prevBtn = document.querySelector('.previous');
+    const nextBtn = document.querySelector('.next');
+    const trackName = document.querySelector('.track-name');
+    const artistName = document.querySelector('.artist-name');
+    const progressBar = document.querySelector('.progress-bar');
+    const progressFilled = document.querySelector('.progress-filled');
+    const currentTimeElement = document.querySelector('.current-time');
+    const durationElement = document.querySelector('.duration');
+    const songLink = document.querySelector('.song-link');
+    const lyricsToggle = document.querySelector('.lyrics-toggle');
+    const lyricsContainer = document.getElementById('lyrics-container');
+    const lyricsContent = document.querySelector('.lyrics-content');
+
+    // Player state
+    let currentTrackIndex = 0;
+    let isPlaying = false;
+    let currentLyrics = [];
+    let activeLyricIndex = -1;
+
+    // Initialize the player
+    initPlayer();
+
+    function initPlayer() {
+        loadTrack(currentTrackIndex);
         
-        this.initializePlayer();
-        this.initializeEventListeners();
-        this.loadTrack(this.currentTrackIndex);
+        // Event listeners
+        playPauseBtn.addEventListener('click', togglePlayPause);
+        prevBtn.addEventListener('click', playPreviousTrack);
+        nextBtn.addEventListener('click', playNextTrack);
+        audioElement.addEventListener('timeupdate', updateProgress);
+        audioElement.addEventListener('ended', playNextTrack);
+        progressBar.addEventListener('click', setProgress);
+        
+        // Lyrics toggle
+        lyricsToggle.addEventListener('click', toggleLyrics);
+        
+        // Keyboard controls
+        document.addEventListener('keydown', handleKeyboardControls);
     }
 
-    initializePlayer() {
-        // Main player elements
-        this.player = document.querySelector('.music-player');
-        this.trackName = this.player.querySelector('.track-name');
-        this.artistName = this.player.querySelector('.artist-name');
-        this.progressBar = this.player.querySelector('.progress-filled');
-        this.currentTimeEl = this.player.querySelector('.current-time');
-        this.durationEl = this.player.querySelector('.duration');
-        this.playPauseBtn = this.player.querySelector('.play-pause');
-        this.previousBtn = this.player.querySelector('.previous');
-        this.nextBtn = this.player.querySelector('.next');
-        this.songLink = this.player.querySelector('.song-link');
-        this.playIcon = this.playPauseBtn.querySelector('.play-icon');
-        this.pauseIcon = this.playPauseBtn.querySelector('.pause-icon');
-        this.audio = document.getElementById('audio-player');
+    // Load track data
+    async function loadTrack(index) {
+        const track = AUDIO_PLAYLIST[index];
         
-        // Lyrics elements
-        this.lyricsBtn = this.player.querySelector('.lyrics-button');
-        this.lyricsContainer = document.getElementById('lyrics-container');
-        this.lyricsContent = this.lyricsContainer.querySelector('.lyrics-content');
-    }
-
-    initializeEventListeners() {
-        // Player control events
-        this.playPauseBtn.addEventListener('click', () => this.togglePlayPause());
-        this.previousBtn.addEventListener('click', () => this.previousTrack());
-        this.nextBtn.addEventListener('click', () => this.nextTrack());
-        this.lyricsBtn.addEventListener('click', () => this.toggleLyrics());
+        // Update track info
+        trackName.textContent = track.title;
+        artistName.textContent = track.artist;
         
-        // Audio events
-        this.audio.addEventListener('timeupdate', () => {
-            this.updateProgress();
-            if (this.lyricsVisible) {
-                this.updateActiveLyrics();
-            }
-        });
+        // Set audio source
+        audioElement.src = track.audioUrl;
         
-        this.audio.addEventListener('ended', () => {
-            this.nextTrack();
-        });
-        
-        this.audio.addEventListener('loadedmetadata', () => {
-            this.durationEl.textContent = formatTime(this.audio.duration);
-        });
-        
-        // Progress bar click event
-        const progressContainer = this.player.querySelector('.progress-bar');
-        progressContainer.addEventListener('click', (e) => {
-            const clickPosition = e.offsetX / progressContainer.offsetWidth;
-            this.audio.currentTime = clickPosition * this.audio.duration;
-        });
-    }
-
-    loadTrack(index) {
-        // Reset
-        this.activeLyricIndex = -1;
-        this.lyricsContent.innerHTML = '';
-        
-        // Get current track
-        const track = this.playlist[index];
-        
-        // Update player UI
-        this.trackName.textContent = track.title;
-        this.artistName.textContent = track.artist;
-        this.audio.src = track.audioUrl;
-        this.songLink.href = track.link;
+        // Update link
+        songLink.href = track.link;
         
         // Reset progress
-        this.progressBar.style.width = '0%';
-        this.currentTimeEl.textContent = '0:00';
+        progressFilled.style.width = '0%';
+        currentTimeElement.textContent = '0:00';
         
-        // Fetch lyrics if available
+        // Load lyrics if available
         if (track.lyricsUrl) {
-            this.fetchLyrics(track.lyricsUrl);
+            await loadLyrics(track.lyricsUrl);
+            lyricsToggle.disabled = false;
         } else {
-            this.srtData = null;
-            this.lyricsBtn.style.display = 'none';
+            currentLyrics = [];
+            lyricsContent.innerHTML = '<div class="lyric-line">No lyrics available</div>';
+            lyricsToggle.disabled = true;
+            lyricsToggle.classList.remove('active');
+            lyricsContainer.classList.add('hidden');
         }
         
-        // If previously playing, autoplay the new track
-        if (this.isPlaying) {
-            this.audio.play();
-        }
-    }
-
-    togglePlayPause() {
-        if (this.isPlaying) {
-            this.pauseAudio();
-        } else {
-            this.playAudio();
-        }
-    }
-
-    playAudio() {
-        this.audio.play();
-        this.isPlaying = true;
-        this.playIcon.classList.add('hidden');
-        this.pauseIcon.classList.remove('hidden');
-    }
-
-    pauseAudio() {
-        this.audio.pause();
-        this.isPlaying = false;
-        this.pauseIcon.classList.add('hidden');
-        this.playIcon.classList.remove('hidden');
-    }
-
-    previousTrack() {
-        this.currentTrackIndex = (this.currentTrackIndex - 1 + this.playlist.length) % this.playlist.length;
-        this.loadTrack(this.currentTrackIndex);
-    }
-
-    nextTrack() {
-        this.currentTrackIndex = (this.currentTrackIndex + 1) % this.playlist.length;
-        this.loadTrack(this.currentTrackIndex);
-    }
-
-    updateProgress() {
-        const currentTime = this.audio.currentTime;
-        const duration = this.audio.duration || 1;
-        const progressPercent = (currentTime / duration) * 100;
-        
-        this.progressBar.style.width = `${progressPercent}%`;
-        this.currentTimeEl.textContent = formatTime(currentTime);
-    }
-
-    toggleLyrics() {
-        this.lyricsVisible = !this.lyricsVisible;
-        
-        // Update button style
-        if (this.lyricsVisible) {
-            this.lyricsBtn.classList.add('active');
-            this.lyricsContainer.classList.remove('hidden');
-            this.renderLyrics();
-            this.updateActiveLyrics();
-        } else {
-            this.lyricsBtn.classList.remove('active');
-            this.lyricsContainer.classList.add('hidden');
-        }
-    }
-
-    fetchLyrics(srtUrl) {
-        return fetch(srtUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.text();
-            })
-            .then(srtText => {
-                this.parseSRT(srtText);
-                // Show or hide lyrics button based on available lyrics
-                if (this.srtData && this.srtData.length > 0) {
-                    this.lyricsBtn.style.display = 'block';
-                } else {
-                    this.lyricsBtn.style.display = 'none';
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching lyrics:', error);
-                this.srtData = null;
-                this.lyricsBtn.style.display = 'none';
-            });
-    }
-
-    parseSRT(srtText) {
-        // Reset data
-        this.srtData = [];
-        
-        // Make sure we have text to parse
-        if (!srtText || typeof srtText !== 'string' || srtText.trim() === '') {
-            return;
-        }
-        
-        const srtLines = srtText.trim().split('\n\n');
-        
-        srtLines.forEach(block => {
-            const lines = block.split('\n');
-            if (lines.length < 3) return;
-            
-            // Get time codes
-            const timeMatch = lines[1].match(/(\d{2}:\d{2}:\d{2},\d{3}) --> (\d{2}:\d{2}:\d{2},\d{3})/);
-            if (!timeMatch) return;
-            
-            // Convert time format (00:00:06,494) to seconds
-            const startTime = timeToSeconds(timeMatch[1]);
-            const endTime = timeToSeconds(timeMatch[2]);
-            
-            // Get the text (could be multiple lines)
-            const text = lines.slice(2).join(' ').trim();
-            
-            this.srtData.push({
-                id: parseInt(lines[0]),
-                startTime,
-                endTime,
-                text
-            });
+        // Load audio metadata
+        audioElement.addEventListener('loadedmetadata', function() {
+            durationElement.textContent = formatTime(audioElement.duration);
         });
+        
+        // Reset playing state
+        if (isPlaying) {
+            playAudio();
+        }
     }
 
-    renderLyrics() {
-        // Clear current content
-        this.lyricsContent.innerHTML = '';
-        
-        // Make sure we have lyrics to render
-        if (!this.srtData || this.srtData.length === 0) {
-            this.lyricsContent.innerHTML = '<div class="lyric-line">No lyrics available</div>';
-            return;
+    // Load and parse lyrics
+    async function loadLyrics(url) {
+        const lyricsText = await fetchTextContent(url);
+        if (lyricsText) {
+            currentLyrics = parseSRT(lyricsText);
+            displayLyrics();
+        } else {
+            currentLyrics = [];
+            lyricsContent.innerHTML = '<div class="lyric-line">Failed to load lyrics</div>';
         }
-        
-        // Create elements for each lyric line
-        this.srtData.forEach((lyric, index) => {
+    }
+
+    // Display lyrics in the container
+    function displayLyrics() {
+        lyricsContent.innerHTML = '';
+        currentLyrics.forEach((lyric, index) => {
             const lyricElement = document.createElement('div');
             lyricElement.className = 'lyric-line';
-            lyricElement.dataset.index = index;
             lyricElement.textContent = lyric.text;
-            
-            // Add click event to jump to this part of the song
+            lyricElement.dataset.index = index;
             lyricElement.addEventListener('click', () => {
-                this.audio.currentTime = lyric.startTime;
-                this.updateActiveLyrics();
+                audioElement.currentTime = lyric.startTime;
             });
-            
-            this.lyricsContent.appendChild(lyricElement);
+            lyricsContent.appendChild(lyricElement);
         });
     }
 
-    updateActiveLyrics() {
-        if (!this.srtData || this.srtData.length === 0) return;
+    // Toggle lyrics visibility
+    function toggleLyrics() {
+        lyricsContainer.classList.toggle('hidden');
+        lyricsToggle.classList.toggle('active');
         
-        const currentTime = this.audio.currentTime;
+        // Scroll to active lyric if visible
+        if (!lyricsContainer.classList.contains('hidden') && activeLyricIndex >= 0) {
+            const activeLyric = lyricsContent.querySelector(`.lyric-line[data-index="${activeLyricIndex}"]`);
+            if (activeLyric) {
+                activeLyric.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+    }
+
+    // Update active lyric based on current time
+    function updateActiveLyric(currentTime) {
+        if (currentLyrics.length === 0) return;
+        
+        // Find the current lyric based on time
         let newActiveIndex = -1;
-        
-        // Find the current active lyric
-        for (let i = 0; i < this.srtData.length; i++) {
-            if (currentTime >= this.srtData[i].startTime && currentTime <= this.srtData[i].endTime) {
+        for (let i = 0; i < currentLyrics.length; i++) {
+            if (currentTime >= currentLyrics[i].startTime && currentTime <= currentLyrics[i].endTime) {
                 newActiveIndex = i;
                 break;
             }
         }
         
-        // If nothing found but we're after the last lyric's end time, keep the last one active
-        if (newActiveIndex === -1 && currentTime > this.srtData[this.srtData.length - 1].endTime) {
-            newActiveIndex = this.srtData.length - 1;
-        }
-        
-        // If active lyric has changed
-        if (newActiveIndex !== this.activeLyricIndex) {
-            // Remove active class from all lyrics
-            const allLyrics = this.lyricsContent.querySelectorAll('.lyric-line');
-            allLyrics.forEach(el => el.classList.remove('active'));
+        // If active lyric changed, update the display
+        if (newActiveIndex !== activeLyricIndex) {
+            // Remove active class from previous lyric
+            if (activeLyricIndex >= 0) {
+                const prevLyric = lyricsContent.querySelector(`.lyric-line[data-index="${activeLyricIndex}"]`);
+                if (prevLyric) prevLyric.classList.remove('active');
+            }
             
-            // Add active class to current lyric
-            if (newActiveIndex !== -1) {
-                const activeLyric = this.lyricsContent.querySelector(`.lyric-line[data-index="${newActiveIndex}"]`);
-                if (activeLyric) {
-                    activeLyric.classList.add('active');
+            // Add active class to new lyric
+            if (newActiveIndex >= 0) {
+                const newLyric = lyricsContent.querySelector(`.lyric-line[data-index="${newActiveIndex}"]`);
+                if (newLyric) {
+                    newLyric.classList.add('active');
                     
-                    // Scroll to active lyric (with some offset to center it)
-                    const container = this.lyricsContent;
-                    const scrollOffset = activeLyric.offsetTop - (container.offsetHeight / 2) + (activeLyric.offsetHeight / 2);
-                    
-                    container.scrollTo({
-                        top: scrollOffset,
-                        behavior: 'smooth'
-                    });
+                    // Auto-scroll if lyrics are visible
+                    if (!lyricsContainer.classList.contains('hidden')) {
+                        newLyric.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
                 }
             }
             
-            this.activeLyricIndex = newActiveIndex;
+            activeLyricIndex = newActiveIndex;
         }
     }
-}
 
-// Initialize audio player when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    const audioPlayer = new AudioPlayerController();
+    // Play/Pause toggle
+    function togglePlayPause() {
+        if (isPlaying) {
+            pauseAudio();
+        } else {
+            playAudio();
+        }
+    }
+
+    // Play audio
+    function playAudio() {
+        audioElement.play();
+        playIcon.classList.add('hidden');
+        pauseIcon.classList.remove('hidden');
+        isPlaying = true;
+    }
+
+    // Pause audio
+    function pauseAudio() {
+        audioElement.pause();
+        playIcon.classList.remove('hidden');
+        pauseIcon.classList.add('hidden');
+        isPlaying = false;
+    }
+
+    // Play previous track
+    function playPreviousTrack() {
+        currentTrackIndex--;
+        if (currentTrackIndex < 0) {
+            currentTrackIndex = AUDIO_PLAYLIST.length - 1;
+        }
+        loadTrack(currentTrackIndex);
+        playAudio();
+    }
+
+    // Play next track
+    function playNextTrack() {
+        currentTrackIndex++;
+        if (currentTrackIndex >= AUDIO_PLAYLIST.length) {
+            currentTrackIndex = 0;
+        }
+        loadTrack(currentTrackIndex);
+        playAudio();
+    }
+
+    // Update progress bar
+    function updateProgress() {
+        const duration = audioElement.duration;
+        const currentTime = audioElement.currentTime;
+        
+        if (duration) {
+            // Update progress bar
+            const progressPercent = (currentTime / duration) * 100;
+            progressFilled.style.width = `${progressPercent}%`;
+            
+            // Update time display
+            currentTimeElement.textContent = formatTime(currentTime);
+            
+            // Update lyrics if available
+            updateActiveLyric(currentTime);
+        }
+    }
+
+    // Set progress based on click position
+    function setProgress(e) {
+        const width = this.clientWidth;
+        const clickX = e.offsetX;
+        const duration = audioElement.duration;
+        
+        audioElement.currentTime = (clickX / width) * duration;
+    }
+
+    // Handle keyboard controls
+    function handleKeyboardControls(e) {
+        // Space - Play/Pause
+        if (e.code === 'Space') {
+            e.preventDefault();
+            togglePlayPause();
+        }
+        // Left Arrow - Previous Track
+        else if (e.code === 'ArrowLeft') {
+            playPreviousTrack();
+        }
+        // Right Arrow - Next Track
+        else if (e.code === 'ArrowRight') {
+            playNextTrack();
+        }
+        // L - Toggle Lyrics
+        else if (e.code === 'KeyL') {
+            if (!lyricsToggle.disabled) {
+                toggleLyrics();
+            }
+        }
+    }
 });
