@@ -9,10 +9,10 @@ class AudioPlayerController {
         this.lyricsContainer = document.getElementById('lyrics-container');
         this.lyricsContent = document.querySelector('.lyrics-content');
         this.lyricsVisible = false;
+        
         this.initializePlayer();
         this.initializeEventListeners();
         this.loadTrack(this.currentTrackIndex);
-        this.createLyricsToggleButton();
     }
 
     initializePlayer() {
@@ -29,6 +29,9 @@ class AudioPlayerController {
         this.playIcon = this.playPauseBtn.querySelector('.play-icon');
         this.pauseIcon = this.playPauseBtn.querySelector('.pause-icon');
         this.audio = document.getElementById('audio-player');
+        
+        // Create lyrics toggle button
+        this.createLyricsToggleButton();
     }
 
     createLyricsToggleButton() {
@@ -45,15 +48,8 @@ class AudioPlayerController {
         const controls = this.player.querySelector('.controls');
         controls.insertBefore(this.lyricsBtn, this.songLink);
         
-        // Make sure the lyrics container exists
-        if (!this.lyricsContainer) {
-            console.error('Lyrics container not found in the DOM');
-            return;
-        }
-        
-        // Update lyrics container style for dropdown rather than bubble
-        this.lyricsContainer.classList.add('hidden');
-        this.lyricsContainer.style.display = 'none'; // Initially hidden
+        // Initially hide lyrics button until we confirm lyrics exist
+        this.lyricsBtn.style.display = 'none';
     }
 
     initializeEventListeners() {
@@ -67,51 +63,23 @@ class AudioPlayerController {
         this.audio.addEventListener('timeupdate', () => {
             this.updateProgress();
             this.updateActiveLyrics();
-            
-            const track = this.playlist[this.currentTrackIndex];
-            if (track.copyright) {
-                const playedTime = this.audio.currentTime - (track.startTime || 0);
-                if (playedTime >= 30) {
-                    this.nextTrack();
-                }
-            }
         });
         
         this.audio.addEventListener('ended', () => {
             this.nextTrack();
-            if (this.isPlaying) {
-                this.audio.play().catch(error => console.log('Playback failed:', error));
-            }
         });
         
         this.audio.addEventListener('loadedmetadata', () => {
-            const track = this.playlist[this.currentTrackIndex];
-            if (track.copyright) {
-                this.durationEl.textContent = this.formatTime((track.startTime || 0) + 30);
-            } else {
-                this.durationEl.textContent = this.formatTime(this.audio.duration);
-            }
+            this.durationEl.textContent = this.formatTime(this.audio.duration);
         });
         
         const progressContainer = this.player.querySelector('.progress-bar');
         progressContainer.addEventListener('click', (e) => {
-            const track = this.playlist[this.currentTrackIndex];
             const clickPosition = e.offsetX / progressContainer.offsetWidth;
-            let newTime;
-            
-            if (track.copyright) {
-                const startTime = track.startTime || 0;
-                const maxTime = startTime + 30;
-                newTime = startTime + (clickPosition * 30);
-                if (newTime > maxTime) newTime = maxTime;
-            } else {
-                newTime = clickPosition * this.audio.duration;
-            }
-            
-            this.audio.currentTime = newTime;
+            this.audio.currentTime = clickPosition * this.audio.duration;
         });
         
-        // Close lyrics when clicking outside (modified for dropdown)
+        // Close lyrics when clicking outside
         document.addEventListener('click', (e) => {
             if (this.lyricsVisible && 
                 !this.lyricsContainer.contains(e.target) && 
@@ -121,7 +89,6 @@ class AudioPlayerController {
         });
     }
 
-    // Toggle lyrics visibility - modified for dropdown instead of bubble
     toggleLyrics(force) {
         if (typeof force === 'boolean') {
             this.lyricsVisible = force;
@@ -132,12 +99,8 @@ class AudioPlayerController {
         // Update button style to indicate active state
         if (this.lyricsVisible) {
             this.lyricsBtn.classList.add('active');
-            this.lyricsBtn.style.color = 'white';
-            this.lyricsBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
         } else {
             this.lyricsBtn.classList.remove('active');
-            this.lyricsBtn.style.color = '';
-            this.lyricsBtn.style.backgroundColor = '';
         }
         
         // Show or hide lyrics as dropdown
@@ -151,7 +114,6 @@ class AudioPlayerController {
         }
     }
 
-    // Method to fetch and parse the SRT file
     fetchLyrics(srtUrl) {
         return fetch(srtUrl)
             .then(response => {
@@ -172,12 +134,10 @@ class AudioPlayerController {
             .catch(error => {
                 console.error('Error fetching lyrics:', error);
                 this.srtData = null;
-                this.lyricsContainer.classList.add('hidden');
                 this.lyricsBtn.style.display = 'none';
             });
     }
 
-    // Parse SRT text into timed lyrics
     parseSRT(srtText) {
         // Make sure we have text to parse
         if (!srtText || typeof srtText !== 'string' || srtText.trim() === '') {
@@ -210,18 +170,14 @@ class AudioPlayerController {
                 text
             });
         });
-        
-        console.log(`Parsed ${this.srtData.length} lyrics lines`);
     }
 
-    // Convert SRT time format to seconds
     timeToSeconds(timeString) {
         const [time, milliseconds] = timeString.split(',');
         const [hours, minutes, seconds] = time.split(':').map(Number);
         return hours * 3600 + minutes * 60 + seconds + parseInt(milliseconds) / 1000;
     }
 
-    // Update the active lyrics based on current playback time
     updateActiveLyrics() {
         if (!this.srtData || !this.lyricsContent || !this.lyricsVisible) {
             return;
@@ -245,7 +201,6 @@ class AudioPlayerController {
         }
     }
     
-    // Render all lyrics in the container
     renderAllLyrics() {
         if (!this.srtData || this.srtData.length === 0) {
             this.lyricsContent.innerHTML = "<p>No lyrics available</p>";
@@ -281,7 +236,6 @@ class AudioPlayerController {
         this.highlightActiveLyric();
     }
     
-    // Highlight the currently active lyric
     highlightActiveLyric() {
         if (!this.lyricsVisible || this.activeLyricIndex === -1) return;
         
@@ -314,13 +268,12 @@ class AudioPlayerController {
 
     loadTrack(index) {
         const track = this.playlist[index];
-        this.trackName.textContent = track.title;
-        this.artistName.textContent = track.artist;
-        this.songLink.href = track.link;
+        this.trackName.textContent = track.title || "Unknown Title";
+        this.artistName.textContent = track.artist || "Unknown Artist";
+        this.songLink.href = track.link || "#";
         this.audio.src = track.audioUrl;
         this.progressBar.style.width = '0%';
-        this.currentTimeEl.textContent = track.copyright ? 
-            this.formatTime(track.startTime || 0) : '0:00';
+        this.currentTimeEl.textContent = '0:00';
         
         // Reset lyrics state
         this.activeLyricIndex = -1;
@@ -336,31 +289,24 @@ class AudioPlayerController {
         
         // Only load lyrics for tracks that have an SRT URL
         if (track.lyricsUrl) {
-            this.fetchLyrics(track.lyricsUrl)
-                .then(() => {
-                    // Show lyrics toggle button if lyrics exist
-                    if (this.srtData && this.srtData.length > 0) {
-                        this.lyricsBtn.style.display = 'flex';
-                    }
-                });
+            this.fetchLyrics(track.lyricsUrl);
         }
         
-        this.audio.addEventListener('loadedmetadata', () => {
-            if (track.copyright && track.startTime) {
+        // Handle track start time if specified
+        if (track.startTime) {
+            this.audio.addEventListener('loadedmetadata', () => {
                 this.audio.currentTime = track.startTime;
-            }
-            
-            if (this.isPlaying) {
-                this.playIcon.classList.add('hidden');
-                this.pauseIcon.classList.remove('hidden');
-            } else {
-                this.playIcon.classList.remove('hidden');
-                this.pauseIcon.classList.add('hidden');
-            }
-        }, { once: true });
+            }, { once: true });
+        }
         
+        // Update play/pause button state
         if (this.isPlaying) {
+            this.playIcon.classList.add('hidden');
+            this.pauseIcon.classList.remove('hidden');
             this.audio.play().catch(error => console.log('Playback failed:', error));
+        } else {
+            this.playIcon.classList.remove('hidden');
+            this.pauseIcon.classList.add('hidden');
         }
     }
 
@@ -392,19 +338,7 @@ class AudioPlayerController {
 
     updateProgress() {
         if (this.audio.duration) {
-            const track = this.playlist[this.currentTrackIndex];
-            let percent;
-            
-            if (track.copyright) {
-                const startTime = track.startTime || 0;
-                const currentPosition = this.audio.currentTime - startTime;
-                percent = (currentPosition / 30) * 100;
-                if (percent < 0) percent = 0;
-                if (percent > 100) percent = 100;
-            } else {
-                percent = (this.audio.currentTime / this.audio.duration) * 100;
-            }
-            
+            const percent = (this.audio.currentTime / this.audio.duration) * 100;
             this.progressBar.style.width = `${percent}%`;
             this.currentTimeEl.textContent = this.formatTime(this.audio.currentTime);
         }
