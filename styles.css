@@ -95,6 +95,7 @@ body {
 
 /* Logo styles */
 .logo {
+    margin-top: 1rem;
     margin-bottom: 0.5rem;
     animation: fadeInUp 1s ease-in-out 0.3s both;
     text-align: center;
@@ -102,7 +103,7 @@ body {
 
 .logo-text {
     color: white;
-    font-size: 25px;
+    font-size: 30px;
     font-weight: 500;
     letter-spacing: -1px;
 }
