@@ -7,7 +7,7 @@
 }
 
 body {
-    background: linear-gradient(135deg, #8B0000, #FF0000);
+    background: black;
     color: white;
     min-height: 100vh;
     display: flex;
@@ -60,9 +60,9 @@ body {
 
 .logo-text {
     fill: white;
-    font-size: 48px;
+    font-size: 24px;
     font-weight: bold;
-    letter-spacing: -2px;
+    letter-spacing: -1px;
 }
 
 /* Social links styles */
@@ -86,29 +86,55 @@ body {
     opacity: 1;
 }
 
-/* Menu links styles */
-.menu-links {
-    display: flex;
-    justify-content: center;
+/* Card system styles */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 1.5rem;
-    margin-top: 3rem;
     width: 100%;
-    flex-wrap: wrap;
+    max-width: 800px;
+    margin-top: 3rem;
 }
 
-.menu-link {
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.3s;
+.card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: transform 0.3s, background-color 0.3s;
+    cursor: pointer;
+    animation: fadeInUp 0.5s ease-out forwards;
+    opacity: 0;
+}
+
+.card:nth-child(1) {
+    animation-delay: 0.8s;
+}
+
+.card:nth-child(2) {
+    animation-delay: 0.9s;
+}
+
+.card:nth-child(3) {
+    animation-delay: 1s;
+}
+
+.card:nth-child(4) {
+    animation-delay: 1.1s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.card h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.card p {
     font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.menu-link:hover {
-    border-color: white;
+    opacity: 0.8;
 }
 
 /* Utility classes */
@@ -121,7 +147,7 @@ body {
     width: 100%;
     max-width: 500px;
     margin-top: 2rem;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     padding: 1rem;
 }
@@ -217,7 +243,7 @@ body {
 }
 
 .lyrics-bubble {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(255, 255, 255, 0.1);
     color: white;
     padding: 1rem 2rem;
     border-radius: 50px;
@@ -229,6 +255,13 @@ body {
 .lyrics-content {
     font-size: 1.1rem;
     line-height: 1.5;
+}
+
+/* Last login display */
+.last-login {
+    margin-top: 2rem;
+    font-size: 0.8rem;
+    opacity: 0.6;
 }
 
 /* Animations */
@@ -261,13 +294,12 @@ body {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .social-links, .menu-links {
+    .social-links {
         gap: 1rem;
     }
     
-    .menu-link {
-        font-size: 0.8rem;
-        padding: 0.4rem 0.8rem;
+    .cards-container {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     }
     
     .profile-image {
@@ -284,10 +316,8 @@ body {
         gap: 0.8rem;
     }
     
-    .menu-links {
-        flex-direction: column;
-        align-items: center;
-        gap: 0.8rem;
+    .cards-container {
+        grid-template-columns: 1fr;
     }
     
     .profile-image {
