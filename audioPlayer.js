@@ -8,9 +8,11 @@ class AudioPlayerController {
         this.activeLyricIndex = -1;
         this.lyricsContainer = document.getElementById('lyrics-container');
         this.lyricsContent = document.querySelector('.lyrics-content');
+        this.lyricsVisible = false;
         this.initializePlayer();
         this.initializeEventListeners();
         this.loadTrack(this.currentTrackIndex);
+        this.createLyricsToggleButton();
     }
 
     initializePlayer() {
@@ -29,10 +31,40 @@ class AudioPlayerController {
         this.audio = document.getElementById('audio-player');
     }
 
+    createLyricsToggleButton() {
+        // Create lyrics toggle button and add to controls
+        this.lyricsBtn = document.createElement('button');
+        this.lyricsBtn.className = 'control-btn lyrics-toggle';
+        this.lyricsBtn.innerHTML = `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+        `;
+        
+        // Insert before the song link
+        const controls = this.player.querySelector('.controls');
+        controls.insertBefore(this.lyricsBtn, this.songLink);
+        
+        // Update lyrics container style to make it togglable
+        if (this.lyricsContainer) {
+            this.lyricsContainer.style.position = 'absolute';
+            this.lyricsContainer.style.top = 'auto';
+            this.lyricsContainer.style.bottom = '100%';
+            this.lyricsContainer.style.marginBottom = '10px';
+            this.lyricsContainer.style.pointerEvents = 'auto';
+            this.lyricsContainer.style.transition = 'opacity 0.3s, transform 0.3s';
+            this.lyricsContainer.style.opacity = '0';
+            this.lyricsContainer.style.transform = 'translateY(10px)';
+        }
+    }
+
     initializeEventListeners() {
         this.playPauseBtn.addEventListener('click', () => this.togglePlayPause());
         this.previousBtn.addEventListener('click', () => this.previousTrack());
         this.nextBtn.addEventListener('click', () => this.nextTrack());
+        
+        // Add lyrics toggle button event listener
+        this.lyricsBtn.addEventListener('click', () => this.toggleLyrics());
         
         this.audio.addEventListener('timeupdate', () => {
             this.updateProgress();
@@ -80,6 +112,52 @@ class AudioPlayerController {
             
             this.audio.currentTime = newTime;
         });
+        
+        // Close lyrics when clicking outside
+        document.addEventListener('click', (e) => {
+            if (this.lyricsVisible && 
+                !this.lyricsContainer.contains(e.target) && 
+                !this.lyricsBtn.contains(e.target)) {
+                this.toggleLyrics(false);
+            }
+        });
+    }
+
+    // Toggle lyrics visibility
+    toggleLyrics(force) {
+        if (typeof force === 'boolean') {
+            this.lyricsVisible = force;
+        } else {
+            this.lyricsVisible = !this.lyricsVisible;
+        }
+        
+        // Update button style to indicate active state
+        if (this.lyricsVisible) {
+            this.lyricsBtn.classList.add('active');
+            this.lyricsBtn.style.color = 'white';
+            this.lyricsBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+        } else {
+            this.lyricsBtn.classList.remove('active');
+            this.lyricsBtn.style.color = '';
+            this.lyricsBtn.style.backgroundColor = '';
+        }
+        
+        // Show or hide lyrics
+        if (this.lyricsVisible && this.srtData) {
+            this.lyricsContainer.classList.remove('hidden');
+            this.lyricsContainer.style.opacity = '1';
+            this.lyricsContainer.style.transform = 'translateY(0)';
+            this.renderAllLyrics();
+        } else {
+            this.lyricsContainer.style.opacity = '0';
+            this.lyricsContainer.style.transform = 'translateY(10px)';
+            // Wait for animation to complete before hiding
+            setTimeout(() => {
+                if (!this.lyricsVisible) {
+                    this.lyricsContainer.classList.add('hidden');
+                }
+            }, 300);
+        }
     }
 
     // Method to fetch and parse the SRT file
@@ -88,12 +166,18 @@ class AudioPlayerController {
             .then(response => response.text())
             .then(srtText => {
                 this.parseSRT(srtText);
+                // Update lyrics toggle button visibility based on whether lyrics exist
+                if (this.srtData && this.srtData.length > 0) {
+                    this.lyricsBtn.style.display = 'flex';
+                } else {
+                    this.lyricsBtn.style.display = 'none';
+                }
             })
             .catch(error => {
                 console.error('Error fetching lyrics:', error);
-                // No fallback lyrics—just hide the bubble
                 this.srtData = null;
                 this.lyricsContainer.classList.add('hidden');
+                this.lyricsBtn.style.display = 'none';
             });
     }
 
@@ -134,72 +218,107 @@ class AudioPlayerController {
 
     // Update the active lyrics based on current playback time
     updateActiveLyrics() {
-        console.log('Updating lyrics, isPlaying:', this.isPlaying, 'srtData exists:', !!this.srtData);
-        if (!this.srtData || !this.lyricsContent || !this.isPlaying) {
-            console.log('Hiding lyrics container');
-            this.lyricsContainer.classList.add('hidden');
+        if (!this.srtData || !this.lyricsContent) {
+            return;
+        }
+        
+        // If lyrics are manually toggled visible, we don't need to auto-update
+        if (this.lyricsVisible) {
             return;
         }
         
         const currentTime = this.audio.currentTime;
-        let foundActive = false;
         let newLyricIndex = -1;
         
         for (let i = 0; i < this.srtData.length; i++) {
             const line = this.srtData[i];
             if (currentTime >= line.startTime && currentTime <= line.endTime) {
                 newLyricIndex = i;
-                foundActive = true;
                 break;
             }
-        }
-        
-        // Show or hide the lyrics container based on whether there's active lyrics and music is playing
-        if (foundActive && this.isPlaying) {
-            console.log('Showing lyrics container for active lyrics');
-            this.lyricsContainer.classList.remove('hidden');
-        } else {
-            console.log('Hiding lyrics container (no active lyrics or not playing)');
-            this.lyricsContainer.classList.add('hidden');
         }
         
         // Only update if the lyric has changed
         if (newLyricIndex !== this.activeLyricIndex) {
             this.activeLyricIndex = newLyricIndex;
-            this.renderLyrics();
+            this.highlightActiveLyric();
         }
     }
-
-    // Render the current lyric in the bubble
-    renderLyrics() {
-        console.log('Rendering lyrics, isPlaying:', this.isPlaying, 'activeLyricIndex:', this.activeLyricIndex);
-        // If no active lyrics or audio isn't playing, hide the container
-        if (!this.srtData || this.activeLyricIndex === -1 || !this.isPlaying) {
-            console.log('No lyrics to render or not playing, hiding container');
-            this.lyricsContent.textContent = "";
-            this.lyricsContainer.classList.add('hidden');
+    
+    // Render all lyrics in the container
+    renderAllLyrics() {
+        if (!this.srtData || this.srtData.length === 0) {
+            this.lyricsContent.innerHTML = "<p>No lyrics available</p>";
             return;
         }
         
-        const currentLyric = this.srtData[this.activeLyricIndex];
+        // Clear previous content
+        this.lyricsContent.innerHTML = "";
         
-        // Create a new bubble effect by removing and adding animation
-        const lyricsBubble = this.lyricsContainer.querySelector('.lyrics-bubble');
-        lyricsBubble.style.animation = 'none';
-        // Trigger reflow
-        void lyricsBubble.offsetWidth;
-        lyricsBubble.style.animation = 'bubble-fade 0.3s ease-in-out';
+        // Create a wrapper for scrollable lyrics
+        const lyricsWrapper = document.createElement('div');
+        lyricsWrapper.className = 'lyrics-wrapper';
+        lyricsWrapper.style.maxHeight = '200px';
+        lyricsWrapper.style.overflowY = 'auto';
+        lyricsWrapper.style.padding = '10px';
         
-        // Update the content
-        this.lyricsContent.textContent = currentLyric.text;
+        // Add each lyric line with timing
+        this.srtData.forEach((lyric, index) => {
+            const lyricLine = document.createElement('p');
+            lyricLine.textContent = lyric.text;
+            lyricLine.dataset.index = index;
+            lyricLine.className = 'lyric-line';
+            lyricLine.style.padding = '5px 0';
+            lyricLine.style.cursor = 'pointer';
+            lyricLine.style.transition = 'color 0.2s';
+            
+            // Add click event to seek to this lyric's time
+            lyricLine.addEventListener('click', () => {
+                this.audio.currentTime = lyric.startTime;
+                if (!this.isPlaying) {
+                    this.togglePlayPause();
+                }
+            });
+            
+            lyricsWrapper.appendChild(lyricLine);
+        });
         
-        // Ensure the container is visible
-        console.log('Rendering lyric:', currentLyric.text);
-        this.lyricsContainer.classList.remove('hidden');
+        this.lyricsContent.appendChild(lyricsWrapper);
+        this.highlightActiveLyric();
+    }
+    
+    // Highlight the currently active lyric
+    highlightActiveLyric() {
+        if (!this.lyricsVisible || this.activeLyricIndex === -1) return;
+        
+        // Remove highlight from all lyric lines
+        const allLines = this.lyricsContent.querySelectorAll('.lyric-line');
+        allLines.forEach(line => {
+            line.style.fontWeight = 'normal';
+            line.style.color = 'rgba(255, 255, 255, 0.8)';
+        });
+        
+        // Add highlight to active line
+        const activeLine = this.lyricsContent.querySelector(`.lyric-line[data-index="${this.activeLyricIndex}"]`);
+        if (activeLine) {
+            activeLine.style.fontWeight = 'bold';
+            activeLine.style.color = 'white';
+            
+            // Scroll to make the active line visible
+            const wrapper = activeLine.parentElement;
+            if (wrapper) {
+                const lineTop = activeLine.offsetTop;
+                const wrapperHeight = wrapper.clientHeight;
+                const scrollTop = wrapper.scrollTop;
+                
+                if (lineTop < scrollTop || lineTop > scrollTop + wrapperHeight) {
+                    wrapper.scrollTop = lineTop - (wrapperHeight / 2);
+                }
+            }
+        }
     }
 
     loadTrack(index) {
-        console.log('Loading track, index:', index, 'isPlaying:', this.isPlaying);
         const track = this.playlist[index];
         this.trackName.textContent = track.title;
         this.artistName.textContent = track.artist;
@@ -209,18 +328,26 @@ class AudioPlayerController {
         this.currentTimeEl.textContent = track.copyright ? 
             this.formatTime(track.startTime || 0) : '0:00';
         
-        // Reset lyrics state and hide the lyrics bubble
-        this.isPlaying = false; // Ensure this starts as false
+        // Reset lyrics state
         this.activeLyricIndex = -1;
         this.srtData = null;
-        this.lyricsContainer.classList.add('hidden');
         
-        // Only load lyrics for tracks that have an SRT URL (no fallback lyrics)
+        // Hide lyrics toggle button by default until we know lyrics exist
+        this.lyricsBtn.style.display = 'none';
+        
+        // Hide lyrics container if it was previously shown
+        if (this.lyricsVisible) {
+            this.toggleLyrics(false);
+        }
+        
+        // Only load lyrics for tracks that have an SRT URL
         if (track.lyricsUrl) {
             this.fetchLyrics(track.lyricsUrl)
                 .then(() => {
-                    // Initially render all lyrics
-                    this.renderLyrics();
+                    // Show lyrics toggle button if lyrics exist
+                    if (this.srtData && this.srtData.length > 0) {
+                        this.lyricsBtn.style.display = 'flex';
+                    }
                 });
         }
         
@@ -244,7 +371,6 @@ class AudioPlayerController {
     }
 
     togglePlayPause() {
-        console.log('Toggling play/pause, new state:', !this.isPlaying);
         this.isPlaying = !this.isPlaying;
         if (this.isPlaying) {
             this.playIcon.classList.add('hidden');
@@ -254,8 +380,6 @@ class AudioPlayerController {
             this.playIcon.classList.remove('hidden');
             this.pauseIcon.classList.add('hidden');
             this.audio.pause();
-            // Explicitly hide the lyrics bubble when paused
-            this.lyricsContainer.classList.add('hidden');
         }
     }
 
