@@ -1,4 +1,5 @@
 // utils.js - Utility functions
+
 // Last login function
 function initLastLogin() {
     const lastLoginElement = document.getElementById('lastLogin');
@@ -8,36 +9,42 @@ function initLastLogin() {
     }
 }
 
-// Handle music player toggle
-function initMusicToggle() {
-    const musicCard = document.querySelector('.card h3')?.textContent.toLowerCase().includes('music') 
-        ? document.querySelector('.card h3').closest('.card') 
-        : null;
+// Initialize music player
+function initMusicPlayer() {
+    const musicPlayer = document.querySelector('.music-player');
+    const musicCard = document.querySelector('.music-card');
     
-    if (musicCard) {
-        musicCard.addEventListener('click', (e) => {
-            // Only toggle music player if it's the music card
-            const musicPlayer = document.querySelector('.music-player');
-            musicPlayer.classList.toggle('hidden');
-            
-            // If showing the player, start playing
-            if (!musicPlayer.classList.contains('hidden')) {
-                const playPauseBtn = document.querySelector('.play-pause');
+    // Set up music player defaults
+    if (musicPlayer) {
+        const audioPlayer = document.getElementById('audio-player');
+        const playPauseBtn = document.querySelector('.play-pause');
+        
+        // Set up play/pause button
+        if (playPauseBtn) {
+            playPauseBtn.addEventListener('click', () => {
                 const playIcon = playPauseBtn.querySelector('.play-icon');
                 const pauseIcon = playPauseBtn.querySelector('.pause-icon');
                 
-                playIcon.classList.add('hidden');
-                pauseIcon.classList.remove('hidden');
-                
-                // Trigger play via the audio controller if it exists
-                const audioPlayer = document.getElementById('audio-player');
-                if (audioPlayer) {
-                    audioPlayer.play().catch(error => console.log('Playback failed:', error));
+                if (playIcon.classList.contains('hidden')) {
+                    // Currently playing, pause it
+                    playIcon.classList.remove('hidden');
+                    pauseIcon.classList.add('hidden');
+                    if (audioPlayer) audioPlayer.pause();
+                } else {
+                    // Currently paused, play it
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                    if (audioPlayer) audioPlayer.play().catch(error => console.log('Playback failed:', error));
                 }
-            }
-            
-            // Prevent default link behavior for this specific card
+            });
+        }
+    }
+    
+    // Music card should still toggle player visibility on mobile
+    if (musicCard && window.innerWidth < 768) {
+        musicCard.addEventListener('click', (e) => {
             e.preventDefault();
+            musicPlayer.classList.toggle('minimized');
         });
     }
 }
@@ -55,6 +62,6 @@ function animateSocialLinks() {
 // Event listener
 document.addEventListener('DOMContentLoaded', function() {
     initLastLogin();
-    initMusicToggle();
+    initMusicPlayer();
     animateSocialLinks();
 });
