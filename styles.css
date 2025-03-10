@@ -77,8 +77,8 @@ body {
     top: 200px; /* Position it to overlap with the bottom of the banner */
     left: 50%;
     transform: translateX(-50%);
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     overflow: hidden;
     border: 3px solid black;
@@ -95,7 +95,6 @@ body {
 
 /* Logo styles */
 .logo {
-    margin-top: 40px;
     margin-bottom: 0.5rem;
     animation: fadeInUp 1s ease-in-out 0.3s both;
     text-align: center;
