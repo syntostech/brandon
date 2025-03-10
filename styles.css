@@ -74,7 +74,7 @@ body {
 
 .profile-pic-container {
     position: absolute;
-    top: 200px; /* Position it to overlap with the bottom of the banner */
+    top: 130px; /* Position it to overlap with the bottom of the banner */
     left: 50%;
     transform: translateX(-50%);
     width: 200px;
@@ -102,8 +102,8 @@ body {
 
 .logo-text {
     color: white;
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 25px;
+    font-weight: 500;
     letter-spacing: -1px;
 }
 
