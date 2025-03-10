@@ -12,7 +12,6 @@ function animateSocialLinks() {
 
 // Event listener
 document.addEventListener('DOMContentLoaded', function() {
-    initLastLogin();
     animateSocialLinks();
     
     // Let AudioPlayerController handle the music player initialization
