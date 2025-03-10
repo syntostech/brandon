@@ -1,7 +1,6 @@
-// audioData.js - Audio playlist data
+// audioData.js - Audio playlist data configuration
 
-// startTime: 98 - option to set where to start
-
+// Playlist of songs with metadata
 const AUDIO_PLAYLIST = [
     {
         title: "Mr.Tambourine",
@@ -19,4 +18,5 @@ const AUDIO_PLAYLIST = [
         copyright: false,
         lyricsUrl: "get/data/song746498439248.srt"
     },
+    // Add more tracks as needed
 ];
