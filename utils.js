@@ -1,6 +1,6 @@
-// utils.js - Utility functions
+// utils.js - Utility functions for the website
 
-// Animate social links
+// Animate social links with a staggered delay
 function animateSocialLinks() {
     const socialLinks = document.querySelectorAll('.social-link');
     socialLinks.forEach((link, index) => {
@@ -10,10 +10,27 @@ function animateSocialLinks() {
     });
 }
 
-// Event listener
+// Handle mobile-specific functionality
+function handleMobileLayout() {
+    if (window.innerWidth < 768) {
+        const musicPlayer = document.querySelector('.music-player');
+        if (musicPlayer) {
+            const musicCard = document.querySelector('.music-card');
+            if (musicCard) {
+                musicCard.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    musicPlayer.classList.toggle('minimized');
+                });
+            }
+        }
+    }
+}
+
+// Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
+    // Animate elements
     animateSocialLinks();
     
-    // Let AudioPlayerController handle the music player initialization
-    // Don't call initMusicPlayer() from here
+    // Handle mobile-specific features
+    handleMobileLayout();
 });
