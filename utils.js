@@ -1,14 +1,5 @@
 // utils.js - Utility functions
 
-// Last login function
-function initLastLogin() {
-    const lastLoginElement = document.getElementById('lastLogin');
-    if (lastLoginElement) {
-        const currentDate = new Date();
-        lastLoginElement.textContent = `Last login: ${currentDate.toLocaleString()}`;
-    }
-}
-
 // Initialize music player
 function initMusicPlayer() {
     const musicPlayer = document.querySelector('.music-player');
