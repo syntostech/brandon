@@ -1,4 +1,3 @@
-/* Base styles */
 * {
     margin: 0;
     padding: 0;
@@ -7,469 +6,203 @@
 }
 
 body {
-    background: black;
+    background-color: #000000;
     color: white;
+    padding: 20px;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow-x: hidden;
 }
 
 .container {
-    width: 100%;
-    max-width: 1200px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    margin-bottom: 2rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 2rem;
+    align-items: flex-start;
 }
 
-/* Profile container styles */
-.profile-container {
-    width: 100%;
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    animation: fadeIn 1s ease-in-out;
-    gap: 12px;
-    position: relative;
+header img {
+    width: 150px;
+    height: 150px;
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    border: 3px solid white;
 }
 
-/* Banner container styles */
-.banner-container {
-    width: 100%;
-    max-width: 500px;
-    height: 270px;
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 60px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    animation: fadeInUp 0.8s ease-out;
-    background-color: #222;
+header p {
+    font-size: 24px;
+    margin-bottom: 8px;
 }
 
-.banner-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    position: absolute;
-    top: 0;
-    left: 0;
+header .last-login {
+    color: #a3a3a3;
+    opacity: 0.7;
+    margin-bottom: 1rem;
 }
 
-.banner-gradient {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 70%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgb(0 0 0));
-    z-index: 1;
+.last-login {
+      font-size: 14px;
 }
 
-.profile-pic-container {
-    position: absolute;
-    top: 130px; /* Position it to overlap with the bottom of the banner */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid black;
-    z-index: 3;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.profile-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
-
-/* Logo styles */
-.logo {
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-    animation: fadeInUp 1s ease-in-out 0.3s both;
-    text-align: center;
-}
-
-.logo-text {
-    color: white;
-    font-size: 30px;
-    font-weight: 500;
-    letter-spacing: -1px;
-}
-
-/* Improved social links styles */
 .social-links {
     display: flex;
-    justify-content: center;
     gap: 1.5rem;
-    margin-top: 0.3rem;
-    width: 100%;
+    margin-bottom: 2rem;
 }
 
 .social-link {
-    color: black;
-    background-color: white;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    color: white;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.2s;
     display: flex;
-    justify-content: center;
     align-items: center;
-    transition: transform 0.3s, opacity 0.3s;
-    opacity: 0.9;
-}
-
-.social-link svg {
-    width: 22px;
-    height: 22px;
+    gap: 0.5rem;
 }
 
 .social-link:hover {
-    transform: translateY(-3px);
     opacity: 1;
+    text-decoration: none;
 }
 
-/* Card system styles */
-.cards-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    width: 100%;
-    max-width: 500px;
-    margin-top: 1.5rem;
+.section-header {
+color: #666;
+font-size: 0.9em;
+margin-bottom: 0.75rem;
+display: flex;
+align-items: center;
+gap: 0.75rem;
+}
+
+.section-header::after {
+content: "";
+height: 1px;
+background: rgba(255, 255, 255, 0.1);
+flex-grow: 1;
 }
 
 .card {
-    background-color: #080808;
-    border-radius: 12px;
-    padding: 1.5rem;
-    transition: transform 0.3s, background-color 0.3s;
-    cursor: pointer;
-    animation: fadeInUp 0.5s ease-out forwards;
-    opacity: 0;
-    text-decoration: none;
-    display: block;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.card:nth-child(1) {
-    animation-delay: 0.8s;
-}
-
-.card:nth-child(2) {
-    animation-delay: 0.9s;
-}
-
-.card:nth-child(3) {
-    animation-delay: 1s;
-}
-
-.card:nth-child(4) {
-    animation-delay: 1.1s;
+margin-bottom: 2.5rem;
+border: 1px solid rgba(255, 255, 255, 0.1);
+padding: 1.5rem;
+border-radius: 15px;
+background-color: rgba(255, 255, 255, 0.05);
+transform: translateY(20px);
+opacity: 0;
+animation: fadeInUp 0.6s ease forwards;
+transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    background-color: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.card h3 {
-    margin-bottom: 0.5rem;
-    font-size: 1.2rem;
-    color: white;
-}
-
-.card p {
-    font-size: 0.9rem;
-    opacity: 0.8;
-    color: white;
-}
-
-/* Utility classes */
-.hidden {
-    display: none !important;
-}
-
-/* Music player styles */
-.music-player {
-    width: 100%;
-    max-width: 500px;
-    margin-top: 1.5rem;
-    background-color: #080808;
-    border-radius: 12px;
-    padding: 1rem;
-    display: block;
-    animation: fadeInUp 0.5s ease-out 1.2s forwards;
-    opacity: 0;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-}
-
-.now-playing {
-    margin-bottom: 1rem;
-}
-
-.track-info {
-    margin-bottom: 1rem;
-}
-
-.track-name {
-    font-weight: 500;
-    font-size: 1.2rem;
-}
-
-.artist-name {
-    opacity: 0.8;
-    font-size: 0.9rem;
-}
-
-.track-progress {
-    margin-bottom: 1rem;
-}
-
-.progress-bar {
-    height: 6px;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
-    margin-bottom: 0.5rem;
-    cursor: pointer;
-    position: relative;
-}
-
-.progress-filled {
-    height: 100%;
-    background-color: white;
-    border-radius: 3px;
-    width: 0%;
-    transition: width 0.1s linear;
-}
-
-.time-info {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    opacity: 0.8;
-}
-
-.controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-}
-
-.control-btn {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    opacity: 0.9;
-    transition: opacity 0.3s, transform 0.3s;
-}
-
-.control-btn svg {
-    width: 28px;
-    height: 28px;
-}
-
-.control-btn:hover {
-    opacity: 1;
-    transform: scale(1.1);
-}
-
-.lyrics-toggle {
-    background-color: white;
-    color: black;
-    border: none;
-    border-radius: 4px;
-    padding: 5px 10px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.lyrics-toggle:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-.lyrics-toggle.active {
-    background-color: #303030;
-    color: white
-}
-
-.song-link {
-    color: white;
-    opacity: 0.9;
-    transition: opacity 0.3s, transform 0.3s;
-}
-
-.song-link svg {
-    width: 24px;
-    height: 24px;
-}
-
-.song-link:hover {
-    opacity: 1;
-    transform: scale(1.1);
-}
-
-/* Lyrics container styles */
-.lyrics-container {
-    width: 100%;
-    max-width: 500px;
-    background-color: #080808;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    margin-top: 0;
-}
-
-.lyrics-container:not(.hidden) {
-    max-height: 200px;
-    opacity: 1;
-    margin-top: 10px;
-}
-
-.lyrics-content {
-    padding: 15px;
-    max-height: 200px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
-}
-
-.lyrics-content::-webkit-scrollbar {
-    width: 5px;
-}
-
-.lyrics-content::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.lyrics-content::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
-}
-
-.lyric-line {
-    padding: 8px 5px;
-    border-radius: 4px;
-    margin: 2px 0;
-    transition: all 0.2s ease;
-    color: rgba(255, 255, 255, 0.5);
-    cursor: default;
-}
-
-.lyric-line:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.lyric-line.active {
-    color: white;
-    font-weight: 500;
-    background-color: rgba(255, 255, 255, 0.15);
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
     to {
-        opacity: 1;
         transform: translateY(0);
+        opacity: 1;
     }
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+.card-header {
+    color: #a3a3a3;
+    margin-bottom: 1.5rem;
+    font-size: 1.1em;
+}
+
+.project-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.project-title {
+    font-size: 1.5em;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.project-description {
+    color: #a3a3a3;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: background 0.3s ease;
+}
+
+.project-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+}
+
+.telegram-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+}
+
+.telegram-content h3 {
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+.telegram-content p {
+    color: #a3a3a3;
+    line-height: 1.5;
+}
+
+.telegram-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #0088cc;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.telegram-button:hover {
+    background-color: #00a2ff;
+    text-decoration: none;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 15px;
+    }
+    
+    header img {
+        width: 120px;
+        height: 120px;
+    }
+    
+    header p {
+        font-size: 20px;
+    }
+    
     .social-links {
-        gap: 1.5rem;
+        gap: 1rem;
     }
-    
-    .music-player {
-        position: relative;
-    }
-    
-    .lyrics-content {
-        max-height: 150px;
-    }
-}
 
-@media (max-width: 480px) {
-    .container {
+    .card {
         padding: 1rem;
-    }
-    
-    .social-links {
-        gap: 1.2rem;
-    }
-    
-    .social-link svg {
-        width: 20px;
-        height: 20px;
-    }
-    
-    .profile-pic-container {
-        width: 90px;
-        height: 90px;
-    }
-    
-    .banner-container {
-        height: 200px;
-        margin-bottom: 50px;
-    }
-
-    .profile-pic-container {
-        position: absolute;
-        top: 130px; /* Position it to overlap with the bottom of the banner */
-        left: 50%;
-        transform: translateX(-50%);
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 3px solid black;
-        z-index: 3;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-    .profile-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-}
-    
-    .logo-text {
-        font-size: 30px;
-    }
-    
-    .lyrics-content {
-        max-height: 150px;
     }
 }
