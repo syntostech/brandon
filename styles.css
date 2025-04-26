@@ -44,7 +44,7 @@ header .last-login {
 }
 
 .last-login {
-      font-size: 14px;
+    font-size: 14px;
 }
 
 .social-links {
@@ -66,6 +66,26 @@ header .last-login {
 .social-link:hover {
     opacity: 1;
     text-decoration: none;
+}
+
+/* New styles for social icons */
+.icon-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.social-link:hover .icon-circle {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.icon-circle i {
+    font-size: 18px;
 }
 
 .section-header {
@@ -204,5 +224,16 @@ transition: transform 0.3s ease, border-color 0.3s ease;
 
     .card {
         padding: 1rem;
+    }
+    
+    /* Hide text on mobile */
+    .social-text {
+        display: none;
+    }
+    
+    /* Adjust icon circle for mobile */
+    .icon-circle {
+        width: 36px;
+        height: 36px;
     }
 }
