@@ -60,7 +60,6 @@ header .last-login {
     transition: opacity 0.2s;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
 }
 
 .social-link:hover {
@@ -68,13 +67,13 @@ header .last-login {
     text-decoration: none;
 }
 
-/* New styles for social icons */
+/* Modified styles for social icons */
 .icon-circle {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 50px;  /* Increased from 40px */
+    height: 50px; /* Increased from 40px */
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.1);
     transition: background-color 0.3s ease;
@@ -85,7 +84,12 @@ header .last-login {
 }
 
 .icon-circle i {
-    font-size: 18px;
+    font-size: 24px; /* Increased from 18px */
+}
+
+/* Hide social text in all versions */
+.social-text {
+    display: none;
 }
 
 .section-header {
@@ -226,14 +230,13 @@ transition: transform 0.3s ease, border-color 0.3s ease;
         padding: 1rem;
     }
     
-    /* Hide text on mobile */
-    .social-text {
-        display: none;
-    }
-    
     /* Adjust icon circle for mobile */
     .icon-circle {
-        width: 36px;
-        height: 36px;
+        width: 45px;
+        height: 45px;
+    }
+    
+    .icon-circle i {
+        font-size: 22px;
     }
 }
