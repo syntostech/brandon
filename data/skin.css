@@ -22,34 +22,17 @@ body {
 }
 
 .newsletter-card {
-    background-color: transparent;
-    padding: 2rem 0;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 2.5rem;
     animation: fadeInUp 0.6s ease forwards;
-    position: relative;
-    max-width: 400px;
-    margin: 0 auto;
+    transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
-.newsletter-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
-}
-
-.newsletter-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+.newsletter-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .title {
@@ -58,41 +41,18 @@ body {
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
     text-align: center;
-    letter-spacing: 2px;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-}
-
-.title::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background-color: #AC0201;
 }
 
 .subtitle {
     font-family: 'Roboto Mono', monospace;
     color: #AC0201; /* Using the red color from your code */
-    margin-bottom: 2.5rem;
-    font-size: 0.8rem;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
     text-align: center;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 1rem;
 }
 
 .form-container {
     margin-bottom: 1rem;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .form-group {
@@ -101,10 +61,10 @@ body {
 
 input {
     width: 100%;
-    padding: 12px 0;
-    background-color: transparent;
-    border: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
     color: white;
     font-family: 'Roboto Mono', monospace;
     transition: border-color 0.3s ease;
@@ -112,7 +72,7 @@ input {
 
 input:focus {
     outline: none;
-    border-bottom-color: #AC0201;
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 input::placeholder {
@@ -122,64 +82,35 @@ input::placeholder {
 button {
     width: 100%;
     padding: 12px;
-    background-color: transparent;
+    background-color: #AC0201; /* Using the red color from your code */
     color: white;
-    border: 1px solid #AC0201;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
     font-family: 'Roboto Mono', monospace;
     font-weight: 500;
-    transition: all 0.3s ease;
-    margin-top: 2rem;
-    position: relative;
-    overflow: hidden;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: #AC0201;
-    transition: all 0.3s ease;
-    z-index: -1;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    color: white;
-}
-
-button:hover::before {
-    left: 0;
+    background-color: #d60201;
 }
 
 .message {
     text-align: center;
-    padding: 1.5rem 0;
+    padding: 1.5rem;
+    border-radius: 8px;
     margin-top: 1rem;
-    position: relative;
-}
-
-.message::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 30%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
 }
 
 .success {
-    color: #4CAF50;
+    background-color: rgba(0, 128, 0, 0.1);
+    border: 1px solid rgba(0, 128, 0, 0.3);
 }
 
 .error {
-    color: #AC0201;
+    background-color: rgba(172, 2, 1, 0.1);
+    border: 1px solid rgba(172, 2, 1, 0.3);
 }
 
 .message h3 {
@@ -195,9 +126,8 @@ button:hover::before {
 #try-again-btn {
     width: auto;
     padding: 8px 16px;
-    margin: 1rem auto 0;
+    margin: 0 auto;
     display: block;
-    font-size: 0.8rem;
 }
 
 @keyframes fadeInUp {
