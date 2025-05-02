@@ -208,6 +208,77 @@ transition: transform 0.3s ease, border-color 0.3s ease;
     text-decoration: none;
 }
 
+/* Secondary Links Section */
+.secondary-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.secondary-card {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    padding: 1rem;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+    transform: translateY(10px);
+    opacity: 0;
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.secondary-card:hover {
+    transform: translateY(-1px);
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.secondary-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.08);
+    margin-right: 1rem;
+}
+
+.secondary-icon i {
+    font-size: 18px;
+}
+
+.secondary-content {
+    flex: 1;
+}
+
+.secondary-content h3 {
+    font-size: 1em;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.secondary-content p {
+    font-size: 0.8em;
+    color: #a3a3a3;
+}
+
+.arrow-icon {
+    color: #a3a3a3;
+    font-size: 14px;
+    opacity: 0.5;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.secondary-card:hover .arrow-icon {
+    opacity: 0.8;
+    transform: translateX(3px);
+}
+
 @media (max-width: 600px) {
     body {
         padding: 15px;
@@ -238,5 +309,19 @@ transition: transform 0.3s ease, border-color 0.3s ease;
     
     .icon-circle i {
         font-size: 22px;
+    }
+
+    /* Adjust secondary links for mobile */
+    .secondary-links {
+        grid-template-columns: 1fr;
+    }
+    
+    .secondary-card {
+        padding: 0.75rem;
+    }
+    
+    .secondary-icon {
+        width: 36px;
+        height: 36px;
     }
 }
