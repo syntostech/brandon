@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter&family=Roboto&display=swap" rel="stylesheet">
     <link rel="icon" href="get/images/favicon.png" type="image/x-icon">
-
+    
     <style>
         * {
             margin: 0;
@@ -123,7 +123,7 @@
             padding: 15px !important;
             border-radius: 8px !important;
             margin-top: 15px !important;
-            display: none !important; /* Changed from flex to none */
+            display: none; /* Removed !important to allow JS to override */
             flex-direction: column !important;
             align-items: center !important;
             justify-content: center !important;
@@ -159,7 +159,7 @@
             font-size: 14px !important;
             margin: 15px auto !important;
             text-align: center !important;
-            display: none !important;
+            display: none; /* Removed !important to allow JS to override */
             background: transparent !important;
             border: none !important;
             cursor: pointer !important;
