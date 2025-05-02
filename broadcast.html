@@ -8,9 +8,202 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter&family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="data/skin.css">
     <link rel="icon" href="get/images/favicon.png" type="image/x-icon">
-    
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000000;
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            padding: 0 15px;
+        }
+
+        .newsletter-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2.5rem;
+            animation: fadeInUp 0.6s ease forwards;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .newsletter-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-family: 'Roboto Mono', monospace;
+            color: #AC0201; /* Red color */
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* Form specific styles */
+        .newsletter-form-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form {
+            width: 100%;
+        }
+
+        .newsletter-form-input {
+            width: 100% !important;
+            padding: 14px !important;
+            background-color: #FFFFFF !important;
+            border: 1px solid rgba(209, 213, 219, 1) !important;
+            border-radius: 8px !important;
+            color: #333333 !important;
+            font-family: 'Roboto', sans-serif !important;
+            font-size: 16px !important;
+            margin-bottom: 15px !important;
+            min-height: 46px !important;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .newsletter-form-input::placeholder {
+            color: #6b7280 !important;
+            opacity: 1 !important;
+        }
+
+        .newsletter-form-button, 
+        .newsletter-loading-button {
+            width: 100% !important;
+            padding: 14px !important;
+            background-color: #FFFFFF !important;
+            color: #000000 !important;
+            border: none !important;
+            border-radius: 8px !important;
+            cursor: pointer !important;
+            font-family: 'Inter', sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 16px !important;
+            min-height: 46px !important;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+            transition: background-color 0.3s ease !important;
+        }
+
+        .newsletter-form-button:hover {
+            background-color: #f0f0f0 !important;
+        }
+
+        /* Success and error message styles */
+        .newsletter-success,
+        .newsletter-error {
+            text-align: center !important;
+            width: 100% !important;
+            padding: 15px !important;
+            border-radius: 8px !important;
+            margin-top: 15px !important;
+            display: none !important; /* Changed from flex to none */
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .newsletter-success h3,
+        .newsletter-error h3 {
+            font-family: 'Inter', sans-serif !important;
+            margin-bottom: 8px !important;
+            color: #FFFFFF !important;
+            font-size: 18px !important;
+        }
+
+        .newsletter-success-message,
+        .newsletter-error-message {
+            font-family: 'Inter', sans-serif !important;
+            color: #FFFFFF !important;
+            font-size: 16px !important;
+            text-align: center !important;
+        }
+
+        .newsletter-error h3 {
+            color: #f87171 !important;
+        }
+
+        .newsletter-error-message {
+            color: #f87171 !important;
+        }
+
+        .newsletter-back-button {
+            color: #6b7280 !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 14px !important;
+            margin: 15px auto !important;
+            text-align: center !important;
+            display: none !important;
+            background: transparent !important;
+            border: none !important;
+            cursor: pointer !important;
+            padding: 5px 10px !important;
+        }
+
+        .newsletter-back-button:hover {
+            text-decoration: underline !important;
+            background-color: transparent !important;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .newsletter-card {
+                padding: 1.5rem;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 0.8rem;
+            }
+            
+            .newsletter-form-input,
+            .newsletter-form-button,
+            .newsletter-loading-button {
+                padding: 12px !important;
+                font-size: 14px !important;
+                min-height: 40px !important;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -19,34 +212,27 @@
             <p class="subtitle">all messages received are written by me only</p>
             
             <div class="newsletter-form-container">
-                <form class="newsletter-form" action="https://app.loops.so/api/newsletter-form/cma22ilok0qt4x1mczj5lycyc" method="POST" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
-                    <input class="newsletter-form-input" name="firstName" type="text" placeholder="Your name" required style="font-family: Roboto, sans-serif; color: rgb(0, 0, 0); font-size: 14px; margin: 0px 0px 10px; width: 100%; max-width: 300px; min-width: 100px; background: rgb(255, 255, 255); border: 1px solid rgb(209, 213, 219); box-sizing: border-box; box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px; border-radius: 6px; padding: 8px 12px;">
+                <form class="newsletter-form" action="https://app.loops.so/api/newsletter-form/cma22ilok0qt4x1mczj5lycyc" method="POST">
+                    <input class="newsletter-form-input" name="firstName" type="text" placeholder="Your name" required>
                     
-                    <input class="newsletter-form-input" name="email" type="email" placeholder="Your email" required style="font-family: Roboto, sans-serif; color: rgb(0, 0, 0); font-size: 14px; margin: 0px 0px 10px; width: 100%; max-width: 300px; min-width: 100px; background: rgb(255, 255, 255); border: 1px solid rgb(209, 213, 219); box-sizing: border-box; box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px; border-radius: 6px; padding: 8px 12px;">
+                    <input class="newsletter-form-input" name="email" type="email" placeholder="Your email" required>
                     
-                    <button type="submit" class="newsletter-form-button" style="background: rgb(255, 255, 255); font-size: 14px; color: rgb(0, 0, 0); font-family: Inter, sans-serif; display: flex; width: 100%; max-width: 300px; white-space: normal; height: 38px; align-items: center; justify-content: center; flex-direction: row; padding: 9px 17px; box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px; border-radius: 6px; text-align: center; font-style: normal; font-weight: 500; line-height: 20px; border: none; cursor: pointer;">join</button>
+                    <button type="submit" class="newsletter-form-button">join</button>
                     
-                    <button type="button" class="newsletter-loading-button" style="background: rgb(255, 255, 255); font-size: 14px; color: rgb(0, 0, 0); font-family: Inter, sans-serif; display: none; width: 100%; max-width: 300px; white-space: normal; height: 38px; align-items: center; justify-content: center; flex-direction: row; padding: 9px 17px; box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px; border-radius: 6px; text-align: center; font-style: normal; font-weight: 500; line-height: 20px; border: none; cursor: pointer;">sending...</button>
+                    <button type="button" class="newsletter-loading-button" style="display: none;">sending...</button>
                 </form>
                 
-                <div class="newsletter-success" style="display: none; align-items: center; justify-content: center; width: 100%;">
-                    <h3 style="font-family: Inter, sans-serif; color: rgb(0, 0, 0); margin-bottom: 5px;">Thank you!</h3>
-                    <p class="newsletter-success-message" style="font-family: Inter, sans-serif; color: rgb(0, 0, 0); font-size: 14px;">Check your inbox to confirm your subscription.</p>
+                <div class="newsletter-success">
+                    <h3>Thank you!</h3>
+                    <p class="newsletter-success-message">Check your inbox to confirm your subscription.</p>
                 </div>
                 
-                <div class="newsletter-error" style="display: none; align-items: center; justify-content: center; width: 100%; flex-direction: column;">
-                    <h3 style="font-family: Inter, sans-serif; color: rgb(185, 28, 28); margin-bottom: 5px;">Oops!</h3>
-                    <p class="newsletter-error-message" style="font-family: Inter, sans-serif; color: rgb(185, 28, 28); font-size: 14px;">Something went wrong, please try again</p>
+                <div class="newsletter-error">
+                    <h3>Oops!</h3>
+                    <p class="newsletter-error-message">Something went wrong, please try again</p>
                 </div>
                 
-                <button 
-                    class='newsletter-back-button'
-                    type='button' 
-                    style='color:#6b7280;font: 14px, Inter, sans-serif;margin:10px auto;text-align:center;display:none;background:transparent;border:none;cursor:pointer'
-                    onmouseout='this.style.textDecoration="none"' 
-                    onmouseover='this.style.textDecoration="underline"'>
-                    try again
-                </button>
+                <button class="newsletter-back-button" type="button">try again</button>
             </div>
         </div>
     </div>
