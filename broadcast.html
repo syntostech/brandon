@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter Signup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="data/skin.css">
+</head>
+<body>
+    <div class="container">
+        <div class="newsletter-card">
+            <h1 class="title">BRANDON</h1>
+            <p class="subtitle">all messages received are written by me only</p>
+            
+            <div class="form-container">
+                <form id="newsletterForm">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Your email" required>
+                    </div>
+                    <input type="hidden" name="mailingList" value="cma7c89a303i90iwzanli489e">
+                    <input type="hidden" name="group" value="organic">
+                    <button type="submit" id="submitBtn">Subscribe</button>
+                    <button type="button" id="loadingBtn" style="display: none;">Sending...</button>
+                </form>
+            </div>
+            
+            <div id="success-message" class="message success" style="display: none;">
+                <h3>Thank you for subscribing!</h3>
+                <p>Please check your inbox to confirm your subscription.</p>
+            </div>
+            
+            <div id="error-message" class="message error" style="display: none;">
+                <h3>Oops!</h3>
+                <p>Something went wrong. Please try again.</p>
+                <button id="try-again-btn">Try Again</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="data/works.js"></script>
+</body>
+</html>
