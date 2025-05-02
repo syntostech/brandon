@@ -45,89 +45,117 @@ body {
 
 .subtitle {
     font-family: 'Roboto Mono', monospace;
-    color: #AC0201; /* Using the red color from your code */
+    color: #AC0201; /* Red color */
     margin-bottom: 2rem;
     font-size: 0.9rem;
     text-align: center;
 }
 
-.form-container {
-    margin-bottom: 1rem;
-}
-
-.form-group {
-    margin-bottom: 1rem;
-}
-
-input {
+/* Form specific styles */
+.newsletter-form-container {
     width: 100%;
-    padding: 12px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    color: white;
-    font-family: 'Roboto Mono', monospace;
-    transition: border-color 0.3s ease;
-}
-
-input:focus {
-    outline: none;
-    border-color: rgba(255, 255, 255, 0.5);
-}
-
-input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #AC0201; /* Using the red color from your code */
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #d60201;
-}
-
-.message {
-    text-align: center;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-top: 1rem;
-}
-
-.success {
-    background-color: rgba(0, 128, 0, 0.1);
-    border: 1px solid rgba(0, 128, 0, 0.3);
-}
-
-.error {
-    background-color: rgba(172, 2, 1, 0.1);
-    border: 1px solid rgba(172, 2, 1, 0.3);
-}
-
-.message h3 {
-    margin-bottom: 0.5rem;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.message p {
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-}
-
-#try-again-btn {
-    width: auto;
-    padding: 8px 16px;
+    max-width: 400px;
     margin: 0 auto;
-    display: block;
+}
+
+.newsletter-form {
+    width: 100%;
+}
+
+.newsletter-form-input {
+    width: 100% !important;
+    padding: 14px !important;
+    background-color: #FFFFFF !important;
+    border: 1px solid rgba(209, 213, 219, 1) !important;
+    border-radius: 8px !important;
+    color: #333333 !important;
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 16px !important;
+    margin-bottom: 15px !important;
+    min-height: 46px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+.newsletter-form-input::placeholder {
+    color: #6b7280 !important;
+    opacity: 1 !important;
+}
+
+.newsletter-form-button, 
+.newsletter-loading-button {
+    width: 100% !important;
+    padding: 14px !important;
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    min-height: 46px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+    transition: background-color 0.3s ease !important;
+}
+
+.newsletter-form-button:hover {
+    background-color: #f0f0f0 !important;
+}
+
+/* Success and error message styles */
+.newsletter-success,
+.newsletter-error {
+    text-align: center !important;
+    width: 100% !important;
+    padding: 15px !important;
+    border-radius: 8px !important;
+    margin-top: 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.newsletter-success h3,
+.newsletter-error h3 {
+    font-family: 'Inter', sans-serif !important;
+    margin-bottom: 8px !important;
+    color: #FFFFFF !important;
+    font-size: 18px !important;
+}
+
+.newsletter-success-message,
+.newsletter-error-message {
+    font-family: 'Inter', sans-serif !important;
+    color: #FFFFFF !important;
+    font-size: 16px !important;
+    text-align: center !important;
+}
+
+.newsletter-error h3 {
+    color: #f87171 !important;
+}
+
+.newsletter-error-message {
+    color: #f87171 !important;
+}
+
+.newsletter-back-button {
+    color: #6b7280 !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px !important;
+    margin: 15px auto !important;
+    text-align: center !important;
+    display: block !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    padding: 5px 10px !important;
+}
+
+.newsletter-back-button:hover {
+    text-decoration: underline !important;
+    background-color: transparent !important;
 }
 
 @keyframes fadeInUp {
@@ -152,5 +180,13 @@ button:hover {
     
     .subtitle {
         font-size: 0.8rem;
+    }
+    
+    .newsletter-form-input,
+    .newsletter-form-button,
+    .newsletter-loading-button {
+        padding: 12px !important;
+        font-size: 14px !important;
+        min-height: 40px !important;
     }
 }
