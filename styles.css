@@ -93,36 +93,82 @@ header .last-login {
 }
 
 .section-header {
-color: #667;
-font-size: 0.9em;
-margin-bottom: 0.75rem;
-display: flex;
-align-items: center;
-gap: 0.75rem;
+    color: #667;
+    font-size: 0.9em;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .section-header::after {
-content: "";
-height: 1px;
-background: rgba(255, 255, 255, 0.1);
-flex-grow: 1;
+    content: "";
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    flex-grow: 1;
 }
 
 .card {
-margin-bottom: 2.5rem;
-border: 1px solid rgba(255, 255, 255, 0.1);
-padding: 1.5rem;
-border-radius: 15px;
-background-color: rgba(255, 255, 255, 0.05);
-transform: translateY(20px);
-opacity: 0;
-animation: fadeInUp 0.6s ease forwards;
-transition: transform 0.3s ease, border-color 0.3s ease;
+    margin-bottom: 2.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+    transform: translateY(20px);
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
     transform: translateY(-2px);
     border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* New styles for modern cards */
+.modern-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(5px);
+    padding: 1.25rem;
+}
+
+.modern-card:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card-logo {
+    flex-shrink: 0;
+}
+
+.logo-placeholder {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.logo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8px;
+    transition: all 0.3s ease;
+}
+
+.modern-card:hover .logo-placeholder {
+    background: rgba(255, 255, 255, 0.12);
+    transform: scale(1.05);
 }
 
 @keyframes fadeInUp {
@@ -142,6 +188,7 @@ transition: transform 0.3s ease, border-color 0.3s ease;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    flex: 1;
 }
 
 .project-title {
@@ -165,12 +212,23 @@ transition: transform 0.3s ease, border-color 0.3s ease;
     padding: 0.5rem 1rem;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.1);
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
+    font-size: 0.9em;
+    font-weight: 500;
 }
 
 .project-link:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(3px);
     text-decoration: none;
+}
+
+.project-link i {
+    transition: transform 0.3s ease;
+}
+
+.project-link:hover i {
+    transform: translateX(3px);
 }
 
 .telegram-content {
@@ -309,6 +367,22 @@ transition: transform 0.3s ease, border-color 0.3s ease;
     
     .icon-circle i {
         font-size: 22px;
+    }
+
+    /* Adjust modern cards for mobile */
+    .modern-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .logo-placeholder {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .logo-placeholder i {
+        font-size: 24px;
     }
 
     /* Adjust secondary links for mobile */
