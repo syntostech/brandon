@@ -98,6 +98,26 @@
     .bubble-button:hover {
       background-color: rgba(255, 255, 255, 0.2);
     }
+    
+    /* Media query for mobile devices */
+    @media (max-width: 768px) {
+      .newsletter-bubble {
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        width: 90%;
+        max-width: 320px;
+      }
+      
+      .newsletter-bubble.show {
+        transform: translateX(-50%) translateY(0);
+      }
+      
+      /* Adjust hiding animation for centered position */
+      .newsletter-bubble.hiding {
+        opacity: 0;
+        transform: translateX(-50%) translateY(100px);
+      }
+    }
   `;
   
   document.head.appendChild(style);
@@ -115,7 +135,7 @@
     <div class="bubble-content">
       <h3 class="bubble-title">Join my newsletter</h3>
       <p class="bubble-text">Get the latest updates directly to your inbox</p>
-      <a href="/broadcast" class="bubble-button">Subscribe now</a>
+      <a href="https://brandonvasp.com/broadcast" class="bubble-button">Subscribe now</a>
     </div>
     <button class="bubble-close" aria-label="Close">×</button>
   `;
@@ -143,18 +163,22 @@
   
   // Subscribe button functionality
   const subscribeButton = bubble.querySelector('.bubble-button');
-  subscribeButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    // Replace with your newsletter signup functionality
-    alert('Redirecting to newsletter signup!');
+  subscribeButton.addEventListener('click', () => {
+    // No need for preventDefault, we want the link to work
     hideBubble();
     clearTimeout(timeoutId);
+    // NOTE: We removed the alert since we're using a direct link now
   });
   
   // Function to hide bubble with animation
   function hideBubble() {
-    bubble.style.opacity = '0';
-    bubble.style.transform = 'translateY(100px)';
+    // Add a specific class for hiding in mobile view
+    if (window.innerWidth <= 768) {
+      bubble.classList.add('hiding');
+    } else {
+      bubble.style.opacity = '0';
+      bubble.style.transform = 'translateY(100px)';
+    }
     
     setTimeout(() => {
       if (bubble.parentNode) {
